@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="dev.hideftbanana.netcafejavafxapp.PrimaryController"
+      alignment="CENTER"
+      stylesheets="@../css/admin_login_page.css">
+
+    <VBox spacing="20" alignment="CENTER_LEFT">
+        <Label text="Admin Login" styleClass="title"/>
+        <TextField fx:id="usernameField" promptText="Username"/>
+        <PasswordField fx:id="passwordField" promptText="Password"/>
+        <Button text="Login"/>
+        <Label fx:id="errorMessageLabel" styleClass="error"/>
+    </VBox>
+
+    <VBox alignment="CENTER">
+        <Label text="Welcome to NetCafe Admin Panel" styleClass="welcome"/>
+    </VBox>
+</VBox>
