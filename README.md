@@ -13,7 +13,7 @@ NetCafe Manager is a JavaFX desktop application designed to streamline the manag
 ## Installation
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/netcafe-manager.git
+   https://github.com/bananaback/netcafe-desktop-app.git
    ```
 2. Install dependencies:
    ```bash
