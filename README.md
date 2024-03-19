@@ -21,7 +21,8 @@ NetCafe Manager is a JavaFX desktop application designed to streamline the manag
    ```
 3. Run the application
    ```bash
-   mvn exec:java -Dexec.mainClass="dev.hideftbanana.netcafejavafxapp.Main"
+   & mvn javafx:run -f "<your pom.xml location>"
+   example of pom.xml location: "d:\Java_related\JavaFXFinalProject\netcafejavafxapp\pom.xml"
    ```
 ## Usage
 - Upon launching the application, you will be presented with the main dashboard.
