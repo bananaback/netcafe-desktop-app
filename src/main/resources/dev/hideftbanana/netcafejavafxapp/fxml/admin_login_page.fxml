@@ -3,21 +3,32 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="dev.hideftbanana.netcafejavafxapp.PrimaryController"
-      alignment="CENTER"
-      stylesheets="@../css/admin_login_page.css">
+<HBox
+    fx:id="containerHBox"
+    xmlns="http://javafx.com/javafx"
+    xmlns:fx="http://javafx.com/fxml"
+    fx:controller="dev.hideftbanana.netcafejavafxapp.LoginController"
+    stylesheets="@../css/admin_login_page.css">
 
-    <VBox spacing="20" alignment="CENTER_LEFT">
-        <Label text="Admin Login" styleClass="title"/>
-        <TextField fx:id="usernameField" promptText="Username"/>
-        <PasswordField fx:id="passwordField" promptText="Password"/>
-        <Button text="Login"/>
-        <Label fx:id="errorMessageLabel" styleClass="error"/>
+    <!-- Left panel containing login form -->
+    <VBox fx:id="leftPanelVBox" styleClass="left-panel">
+        <StackPane fx:id="leftPanelPane">
+            <Label fx:id="smallTitle" text="Sign in to dashboard" styleClass="title"/>
+            <Label fx:id="phoneNumberLabel" text="Phone number" styleClass="field-title"/>
+            <TextField fx:id="phoneNumberField" promptText="Type your phone number" styleClass="input-field"/>
+            <Label fx:id="passwordLabel" text="Password" styleClass="field-title"/>
+            <PasswordField fx:id="passwordField" promptText="Password" styleClass="input-field"/>
+            <Button fx:id="loginButton" text="Login" styleClass="rounded-button"/>
+            <Label fx:id="errorMessageLabel" styleClass="error"/>
+        </StackPane>
     </VBox>
 
-    <VBox alignment="CENTER">
-        <Label text="Welcome to NetCafe Admin Panel" styleClass="welcome"/>
+    <!-- Right panel containing big text -->
+    <VBox fx:id="rightPanelVBox" styleClass="right-panel">
+        <StackPane fx:id="rightPanelPane">
+            <Label fx:id="welcomeLabel" text="Take their money :)" styleClass="welcome"/>
+            <Label fx:id="smallWelcomeLabel" text="Empty their wallet!" styleClass="welcome-small"/>
+        </StackPane>
     </VBox>
-</VBox>
+
+</HBox>
