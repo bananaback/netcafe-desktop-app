@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1024.0" prefWidth="1440.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.bananaback.controllers.MainAppController">
+   <top>
+      <HBox prefHeight="40.0" prefWidth="1440.0" spacing="20.0" style="-fx-background-color: #131111;" BorderPane.alignment="CENTER">
+         <children>
+            <Label prefHeight="112.0" prefWidth="236.0" style="-fx-text-fill: #ffffff;" text="ADMIN DASHBOARD" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <Button mnemonicParsing="false" prefHeight="98.0" prefWidth="107.0" style="-fx-background-color: transparent; -fx-text-fill: #ffffff;" text="Services" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+               <padding>
+                  <Insets bottom="30.0" top="30.0" />
+               </padding>
+            </Button>
+            <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="125.0" style="-fx-background-color: transparent; -fx-text-fill: #ffffff;" text="Monitor" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Button>
+         </children>
+         <padding>
+            <Insets left="60.0" />
+         </padding>
+      </HBox>
+   </top>
+   <right>
+      <VBox prefHeight="924.0" prefWidth="422.0" BorderPane.alignment="CENTER">
+         <children>
+            <FlowPane prefHeight="892.0" prefWidth="422.0" style="-fx-background-color: #1C1A1A;" />
+            <VBox prefHeight="47.0" prefWidth="422.0">
+               <children>
+                  <Separator prefHeight="0.0" prefWidth="422.0" style="-fx-border-color: #454545;" />
+               </children>
+            </VBox>
+            <HBox prefHeight="286.0" prefWidth="332.0">
+               <children>
+                  <VBox alignment="CENTER" prefHeight="231.0" prefWidth="206.0" spacing="10.0" style="-fx-background-color: #1C1A1A;">
+                     <children>
+                        <Label text="Today's balance" textFill="#05ff00">
+                           <font>
+                              <Font name="System Bold" size="22.0" />
+                           </font>
+                        </Label>
+                        <Label text="1.400.000 VND" textFill="#05ff00">
+                           <font>
+                              <Font name="System Bold" size="24.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" prefHeight="242.0" prefWidth="235.0" style="-fx-background-color: #1C1A1A;">
+                     <children>
+                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="53.0" prefWidth="176.0" style="-fx-background-color: #FF2E00;" text="My credit &gt;&gt;&gt;" textAlignment="CENTER" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="20.0" />
+                           </font>
+                           <padding>
+                              <Insets right="10.0" />
+                           </padding>
+                           <opaqueInsets>
+                              <Insets left="5.0" right="5.0" />
+                           </opaqueInsets>
+                        </Button>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </right>
+   <center>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <FlowPane hgap="80.0" prefHeight="936.0" prefWidth="1018.0" style="-fx-background-color: #1C1A1A;" vgap="60.0">
+               <children>
+                  <ImageView fitHeight="97.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@cpu_light.jpg" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="97.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@cpu_light.jpg" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="97.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@cpu_light.jpg" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="97.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@cpu_light.jpg" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="97.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@cpu_light.jpg" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="97.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@cpu_light.jpg" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="97.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@cpu_light.jpg" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="97.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@cpu_light.jpg" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="97.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@cpu_light.jpg" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="97.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@cpu_light.jpg" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="97.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@cpu_light.jpg" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="97.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@cpu_light.jpg" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="97.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@cpu_light.jpg" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="97.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@cpu_light.jpg" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="97.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@cpu_light.jpg" />
+                     </image>
+                  </ImageView>
+               </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <padding>
+                  <Insets left="100.0" top="120.0" />
+               </padding>
+            </FlowPane>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>
