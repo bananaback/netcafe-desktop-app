@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import dev.hideftbanana.netcafejavafxapp.AppConfig;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -15,7 +16,8 @@ public class LoginController extends BaseController implements Initializable {
 
     @FXML
     private void loginUser() throws IOException {
-        sceneManager.closeStage();
+        sceneManager.setStageSize(AppConfig.MAIN_STAGE_WIDTH, AppConfig.MAIN_STAGE_HEIGHT);
+        sceneManager.switchingScene("/dev/hideftbanana/netcafejavafxapp/fxml/main_app.fxml");
     }
 
     @Override
