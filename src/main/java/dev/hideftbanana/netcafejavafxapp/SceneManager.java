@@ -1,6 +1,5 @@
 package dev.hideftbanana.netcafejavafxapp;
 
-import java.io.IOError;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -39,5 +38,9 @@ public class SceneManager {
 
     public void showRootStage() {
         this.rootStage.show();
+    }
+
+    public void closeStage() {
+        this.rootStage.close();
     }
 }
