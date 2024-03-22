@@ -1,34 +1,139 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.TilePane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<HBox
-    fx:id="containerHBox"
-    xmlns="http://javafx.com/javafx"
-    xmlns:fx="http://javafx.com/fxml"
-    fx:controller="dev.hideftbanana.netcafejavafxapp.LoginController"
-    stylesheets="@../css/admin_login_page.css">
 
-    <!-- Left panel containing login form -->
-    <VBox fx:id="leftPanelVBox" styleClass="left-panel">
-        <StackPane fx:id="leftPanelPane">
-            <Label fx:id="smallTitle" text="Sign in to dashboard" styleClass="title"/>
-            <Label fx:id="phoneNumberLabel" text="Phone number" styleClass="field-title"/>
-            <TextField fx:id="phoneNumberField" promptText="Type your phone number" styleClass="input-field"/>
-            <Label fx:id="passwordLabel" text="Password" styleClass="field-title"/>
-            <PasswordField fx:id="passwordField" promptText="Password" styleClass="input-field"/>
-            <Button fx:id="loginButton" text="Login" styleClass="rounded-button"/>
-            <Label fx:id="errorMessageLabel" styleClass="error"/>
-        </StackPane>
-    </VBox>
-
-    <!-- Right panel containing big text -->
-    <VBox fx:id="rightPanelVBox" styleClass="right-panel">
-        <StackPane fx:id="rightPanelPane">
-            <Label fx:id="welcomeLabel" text="Take their money :)" styleClass="welcome"/>
-            <Label fx:id="smallWelcomeLabel" text="Empty their wallet!" styleClass="welcome-small"/>
-        </StackPane>
-    </VBox>
-
+<HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="570.0" minWidth="845.0" prefHeight="0.0" prefWidth="0.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.hideftbanana.netcafejavafxapp.LoginController">
+   <children>
+      <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="570.0" prefWidth="444.0" style="-fx-background-color: #0D1749;" HBox.hgrow="ALWAYS">
+         <children>
+            <GridPane alignment="CENTER" gridLinesVisible="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="622.0" prefWidth="420.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="135.0" minWidth="10.0" prefWidth="68.33332824707031" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="293.33333587646484" minWidth="10.0" prefWidth="292.6666717529297" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="113.0" minWidth="10.0" prefWidth="58.0" />
+              </columnConstraints>
+              <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <children>
+                        <Label alignment="CENTER" prefHeight="45.0" prefWidth="164.0" text="Sign in to dashboard" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="16.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <VBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                     <children>
+                        <Label text="Phone number" textFill="WHITE" />
+                        <TextField promptText="Type your phone number" style="-fx-background-color: #27252D; -fx-border-radius: 10; -fx-background-radius: 10;" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                     <children>
+                        <Label text="Password" textFill="WHITE" />
+                        <TextField promptText="Type your password" style="-fx-background-color: #27252D; -fx-border-radius: 10; -fx-background-radius: 10;" />
+                     </children>
+                  </VBox>
+                  <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <children>
+                        <TilePane alignment="CENTER" prefHeight="72.0" prefWidth="320.0">
+                           <children>
+                              <StackPane prefHeight="72.0" prefWidth="72.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10;">
+                                 <children>
+                                    <GridPane alignment="CENTER" StackPane.alignment="CENTER">
+                                      <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                      </rowConstraints>
+                                       <children>
+                                          <Label text="T" textFill="#19a1e4">
+                                             <font>
+                                                <Font name="System Bold" size="28.0" />
+                                             </font>
+                                             <padding>
+                                                <Insets left="15.0" top="10.0" />
+                                             </padding>
+                                          </Label>
+                                          <Label text="H" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                             <font>
+                                                <Font name="System Bold" size="32.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </GridPane>
+                                 </children>
+                              </StackPane>
+                           </children>
+                        </TilePane>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <CheckBox mnemonicParsing="false" prefHeight="17.0" prefWidth="19.0" text="CheckBox" />
+                              <Label text="Remember me" textFill="WHITE" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_RIGHT" prefHeight="71.0" prefWidth="200.0">
+                           <children>
+                              <Label text="Forgot password?" textFill="#0085ff" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </HBox>
+                  <Button fx:id="loginButton" onAction="#loginUser" mnemonicParsing="false" prefHeight="35.0" prefWidth="329.0" style="-fx-background-color: #0E8019; -fx-background-radius: 10;" text="Login" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Button>
+               </children>
+            </GridPane>
+         </children>
+      </VBox>
+      <VBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="570.0" prefWidth="449.0" style="-fx-background-color: #000618;" HBox.hgrow="ALWAYS">
+         <children>
+            <Label prefHeight="118.0" prefWidth="177.0" text="Take their&#10;money :))" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Label>
+            <Label text="Empty their wallet!" textFill="WHITE">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+         </children>
+         <padding>
+            <Insets left="80.0" />
+         </padding>
+      </VBox>
+   </children>
 </HBox>
