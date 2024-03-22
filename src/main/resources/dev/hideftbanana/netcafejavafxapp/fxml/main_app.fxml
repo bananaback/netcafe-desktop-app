@@ -92,77 +92,77 @@
                <children>
                   <ImageView fitHeight="97.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@cpu_light.jpg" />
+                        <Image url="@../images/cpu_light.jpg" />
                      </image>
                   </ImageView>
                   <ImageView fitHeight="97.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@cpu_light.jpg" />
+                        <Image url="@../images/cpu_light.jpg" />
                      </image>
                   </ImageView>
                   <ImageView fitHeight="97.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@cpu_light.jpg" />
+                        <Image url="@../images/cpu_light.jpg" />
                      </image>
                   </ImageView>
                   <ImageView fitHeight="97.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@cpu_light.jpg" />
+                        <Image url="@../images/cpu_light.jpg" />
                      </image>
                   </ImageView>
                   <ImageView fitHeight="97.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@cpu_light.jpg" />
+                        <Image url="@../images/cpu_light.jpg" />
                      </image>
                   </ImageView>
                   <ImageView fitHeight="97.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@cpu_light.jpg" />
+                        <Image url="@../images/cpu_light.jpg" />
                      </image>
                   </ImageView>
                   <ImageView fitHeight="97.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@cpu_light.jpg" />
+                        <Image url="@../images/cpu_light.jpg" />
                      </image>
                   </ImageView>
                   <ImageView fitHeight="97.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@cpu_light.jpg" />
+                        <Image url="@../images/cpu_light.jpg" />
                      </image>
                   </ImageView>
                   <ImageView fitHeight="97.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@cpu_light.jpg" />
+                        <Image url="@../images/cpu_light.jpg" />
                      </image>
                   </ImageView>
                   <ImageView fitHeight="97.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@cpu_light.jpg" />
+                        <Image url="@../images/cpu_light.jpg" />
                      </image>
                   </ImageView>
                   <ImageView fitHeight="97.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@cpu_light.jpg" />
+                        <Image url="@../images/cpu_light.jpg" />
                      </image>
                   </ImageView>
                   <ImageView fitHeight="97.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@cpu_light.jpg" />
+                        <Image url="@../images/cpu_light.jpg" />
                      </image>
                   </ImageView>
                   <ImageView fitHeight="97.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@cpu_light.jpg" />
+                        <Image url="@../images/cpu_light.jpg" />
                      </image>
                   </ImageView>
                   <ImageView fitHeight="97.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@cpu_light.jpg" />
+                        <Image url="@../images/cpu_light.jpg" />
                      </image>
                   </ImageView>
                   <ImageView fitHeight="97.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@cpu_light.jpg" />
+                        <Image url="@../images/cpu_light.jpg" />
                      </image>
                   </ImageView>
                </children>
