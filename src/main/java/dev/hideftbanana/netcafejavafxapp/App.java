@@ -2,7 +2,6 @@ package dev.hideftbanana.netcafejavafxapp;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import java.io.IOException;
 
