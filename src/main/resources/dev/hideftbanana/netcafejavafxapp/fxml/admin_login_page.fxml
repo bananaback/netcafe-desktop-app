@@ -48,13 +48,13 @@
                   <VBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                      <children>
                         <Label text="Phone number" textFill="WHITE" />
-                        <TextField promptText="Type your phone number" style="-fx-background-color: #27252D; -fx-border-radius: 10; -fx-background-radius: 10;" />
+                        <TextField promptText="Type your phone number" style="-fx-text-fill: #FFFFFF; -fx-background-color: #27252D; -fx-border-radius: 10; -fx-background-radius: 10;" />
                      </children>
                   </VBox>
                   <VBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                      <children>
                         <Label text="Password" textFill="WHITE" />
-                        <TextField promptText="Type your password" style="-fx-background-color: #27252D; -fx-border-radius: 10; -fx-background-radius: 10;" />
+                        <TextField promptText="Type your password" style="-fx-text-fill: #FFFFFF; -fx-background-color: #27252D; -fx-border-radius: 10; -fx-background-radius: 10;" />
                      </children>
                   </VBox>
                   <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
