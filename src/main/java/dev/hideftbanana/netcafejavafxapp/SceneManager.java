@@ -47,6 +47,12 @@ public class SceneManager {
         rootStage.centerOnScreen();
     }
 
+    public void setMinSize(double x, double y) {
+        rootStage.setMinWidth(x);
+        rootStage.setMinHeight(y);
+        rootStage.centerOnScreen();
+    }
+
     public void closeStage() {
         this.rootStage.close();
     }

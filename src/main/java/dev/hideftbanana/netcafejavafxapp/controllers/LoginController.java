@@ -17,6 +17,7 @@ public class LoginController extends BaseController implements Initializable {
     @FXML
     private void loginUser() throws IOException {
         sceneManager.setStageSize(AppConfig.MAIN_STAGE_WIDTH, AppConfig.MAIN_STAGE_HEIGHT);
+        sceneManager.setMinSize(AppConfig.MAIN_STAGE_MIN_WIDTH, AppConfig.MAIN_STAGE_MIN_HEIGHT);
         sceneManager.switchingScene("/dev/hideftbanana/netcafejavafxapp/fxml/main_app.fxml");
     }
 
