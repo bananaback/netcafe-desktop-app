@@ -15,7 +15,9 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
         stage.setWidth(AppConfig.LOGIN_STAGE_WIDTH);
         stage.setHeight(AppConfig.LOGIN_STAGE_HEIGHT);
-        stage.initStyle(StageStyle.UNDECORATED);
+        stage.setMinWidth(AppConfig.LOGIN_STAGE_MIN_WIDTH);
+        stage.setMinHeight(AppConfig.LOGIN_STAGE_MIN_HEIGHT);
+        // stage.initStyle(StageStyle.UNDECORATED);
         SceneManager sceneManager = new SceneManager(stage);
         sceneManager.switchingScene("/dev/hideftbanana/netcafejavafxapp/fxml/admin_login_page.fxml");
         sceneManager.showRootStage();
