@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -13,7 +14,6 @@
 <?import javafx.scene.layout.TilePane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-
 
 <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="570.0" minWidth="845.0" prefHeight="0.0" prefWidth="0.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.hideftbanana.netcafejavafxapp.controllers.LoginController">
    <children>
@@ -26,14 +26,15 @@
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="113.0" minWidth="10.0" prefWidth="58.0" />
               </columnConstraints>
               <rowConstraints>
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="67.0" minHeight="10.0" prefHeight="67.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="88.0" minHeight="10.0" prefHeight="80.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="40.0" minHeight="0.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="75.0" minHeight="10.0" prefHeight="62.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="76.0" minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="56.0" minHeight="10.0" prefHeight="38.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="78.0" minHeight="10.0" prefHeight="51.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="73.0" minHeight="10.0" prefHeight="64.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="115.0" minHeight="10.0" prefHeight="98.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
                   <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
@@ -47,14 +48,16 @@
                   </HBox>
                   <VBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                      <children>
-                        <Label text="Phone number" textFill="WHITE" />
-                        <TextField promptText="Type your phone number" style="-fx-text-fill: #FFFFFF; -fx-background-color: #27252D; -fx-border-radius: 10; -fx-background-radius: 10;" />
+                        <Label text="Username" textFill="WHITE" />
+                        <TextField fx:id="usernameTextField" promptText="Type your username" style="-fx-text-fill: #FFFFFF; -fx-background-color: #27252D; -fx-border-radius: 10; -fx-background-radius: 10;" />
+
                      </children>
                   </VBox>
                   <VBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                      <children>
                         <Label text="Password" textFill="WHITE" />
-                        <TextField promptText="Type your password" style="-fx-text-fill: #FFFFFF; -fx-background-color: #27252D; -fx-border-radius: 10; -fx-background-radius: 10;" />
+                        <TextField fx:id="passwordTextField" promptText="Type your password" style="-fx-text-fill: #FFFFFF; -fx-background-color: #27252D; -fx-border-radius: 10; -fx-background-radius: 10;" />
+
                      </children>
                   </VBox>
                   <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
@@ -94,7 +97,12 @@
                         </TilePane>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                  <Button fx:id="loginButton" mnemonicParsing="false" onAction="#loginUser" prefHeight="35.0" prefWidth="329.0" style="-fx-background-color: #0E8019; -fx-background-radius: 10;" text="Login" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="7">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Button>
+                  <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
                      <children>
                         <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                            <children>
@@ -109,7 +117,21 @@
                         </HBox>
                      </children>
                   </HBox>
-                  <Button fx:id="loginButton" onAction="#loginUser" mnemonicParsing="false" prefHeight="35.0" prefWidth="329.0" style="-fx-background-color: #0E8019; -fx-background-radius: 10;" text="Login" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                  <StackPane GridPane.columnIndex="1" GridPane.rowIndex="5">
+                     <children>
+                        <Label fx:id="loginValidationLabel" text="Login validation." textFill="RED" visible="false">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <ProgressIndicator fx:id="progressIndicator" prefHeight="40.0" prefWidth="110.0" visible="false">
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                        </ProgressIndicator>
+                     </children>
+                  </StackPane>
+                  <Button fx:id="registerButton" mnemonicParsing="false" onAction="#loginUser" prefHeight="35.0" prefWidth="329.0" style="-fx-background-color: #4CACF4; -fx-background-radius: 10;" text="Register new account" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="8" GridPane.valignment="TOP">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font>
