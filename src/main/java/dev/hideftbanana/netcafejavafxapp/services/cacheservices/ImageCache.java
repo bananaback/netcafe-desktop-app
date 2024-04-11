@@ -63,6 +63,11 @@ public class ImageCache extends SimpleCache<String, byte[]> {
         return imageData;
     }
 
+    @Override
+    public void remove(String key) {
+        cache.remove(key);
+    }
+
     private byte[] downloadImage(String key) throws IOException {
         URL imageUrl = new URL(baseUrl + key);
         HttpURLConnection connection = null;

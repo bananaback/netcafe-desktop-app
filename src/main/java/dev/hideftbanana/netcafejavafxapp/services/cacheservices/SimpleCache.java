@@ -20,4 +20,6 @@ public abstract class SimpleCache<K, V> {
     abstract void put(K key, V value);
 
     abstract V get(K key);
+
+    abstract void remove(K key);
 }
