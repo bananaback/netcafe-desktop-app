@@ -1,23 +1,29 @@
 package dev.hideftbanana.netcafejavafxapp;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import dev.hideftbanana.netcafejavafxapp.controllers.BaseController;
+import dev.hideftbanana.netcafejavafxapp.controllers.MainAppController;
+import dev.hideftbanana.netcafejavafxapp.services.cacheservices.ImageCache;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class SceneManager {
     private final Stage rootStage;
+    private final ImageCache imageCache;
 
-    public SceneManager(Stage rootStage) {
-        if (rootStage == null) {
-            throw new IllegalArgumentException();
+    public SceneManager(Stage rootStage, ImageCache imageCache) {
+        if (rootStage == null || imageCache == null) {
+            throw new IllegalArgumentException("Root stage and image cache must not be null.");
         }
         this.rootStage = rootStage;
+        this.imageCache = imageCache;
     }
 
     private final Map<String, Scene> scenes = new HashMap<>();
@@ -25,6 +31,20 @@ public class SceneManager {
     public void switchingScene(String url) {
         Scene scene = scenes.computeIfAbsent(url, u -> {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(u));
+            loader.setControllerFactory(param -> {
+                try {
+                    Object controller = param.getDeclaredConstructor().newInstance();
+                    System.out.println(controller.getClass());
+                    if (controller instanceof MainAppController) {
+                        MainAppController mainAppController = (MainAppController) controller;
+                        mainAppController.setImageCache(imageCache);
+                        System.out.println("Image cache passed to MainAppController!!!");
+                    }
+                    return controller;
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+            });
             try {
                 Pane p = loader.load();
                 BaseController controller = loader.getController();
@@ -56,4 +76,9 @@ public class SceneManager {
     public void closeStage() {
         this.rootStage.close();
     }
+
+    public void setFullScreen(boolean b) {
+        this.rootStage.setFullScreen(b);
+    }
+
 }

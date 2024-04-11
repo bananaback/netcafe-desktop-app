@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.text.Font?>
+
+<HBox alignment="CENTER">
+    <Label text="WELCOME" textFill="WHITE">
+        <font>
+            <Font name="System Bold" size="96.0" />
+        </font>
+    </Label>
+</HBox>
