@@ -9,8 +9,11 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ResourceBundle;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import dev.hideftbanana.netcafejavafxapp.AppConfig;
 import dev.hideftbanana.netcafejavafxapp.TokenManager;
+import dev.hideftbanana.netcafejavafxapp.models.responses.LoginResponse;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -36,6 +39,11 @@ public class LoginController extends BaseController implements Initializable {
 
     @FXML
     private void loginUser() throws IOException {
+        // mockLogin();
+        realLogin();
+    }
+
+    private void realLogin() {
         String username = usernameTextField.getText();
         String password = passwordTextField.getText();
 
@@ -66,28 +74,42 @@ public class LoginController extends BaseController implements Initializable {
                         progressIndicator.setVisible(false);
 
                         if (response.statusCode() == 200) {
-                            // Parse JSON response manually
-                            String responseBody = response.body();
-                            String accessToken = parseToken(responseBody, "accessToken");
-                            String refreshToken = parseToken(responseBody, "refreshToken");
+                            try {
+                                // Parse JSON response using Jackson
+                                ObjectMapper objectMapper = new ObjectMapper();
+                                LoginResponse loginResponse = objectMapper.readValue(response.body(),
+                                        LoginResponse.class);
 
-                            TokenManager.setAccessToken(accessToken);
-                            TokenManager.setRefreshToken(refreshToken);
+                                // Extract access token and refresh token from the response object
+                                String accessToken = loginResponse.getAccessToken();
+                                String refreshToken = loginResponse.getRefreshToken();
 
-                            Platform.runLater(() -> {
-                                loginValidationLabel.setText("Login successful.");
-                                loginValidationLabel.setVisible(true);
-                                // delay here 1 sec before
-                                PauseTransition pause = new PauseTransition(Duration.seconds(1));
-                                pause.setOnFinished(e -> {
-                                    sceneManager.setStageSize(AppConfig.MAIN_STAGE_WIDTH, AppConfig.MAIN_STAGE_HEIGHT);
-                                    sceneManager.setMinSize(AppConfig.MAIN_STAGE_MIN_WIDTH,
-                                            AppConfig.MAIN_STAGE_MIN_HEIGHT);
-                                    sceneManager
-                                            .switchingScene("/dev/hideftbanana/netcafejavafxapp/fxml/main_app.fxml");
+                                TokenManager.setAccessToken(accessToken);
+                                TokenManager.setRefreshToken(refreshToken);
+
+                                Platform.runLater(() -> {
+                                    loginValidationLabel.setText("Login successful.");
+                                    loginValidationLabel.setVisible(true);
+                                    // delay here 1 sec before
+                                    PauseTransition pause = new PauseTransition(Duration.seconds(1));
+                                    pause.setOnFinished(e -> {
+                                        sceneManager.setStageSize(AppConfig.MAIN_STAGE_WIDTH,
+                                                AppConfig.MAIN_STAGE_HEIGHT);
+                                        sceneManager.setMinSize(AppConfig.MAIN_STAGE_MIN_WIDTH,
+                                                AppConfig.MAIN_STAGE_MIN_HEIGHT);
+                                        sceneManager
+                                                .switchingScene(
+                                                        "/dev/hideftbanana/netcafejavafxapp/fxml/net_cafe_splash_screen.fxml");
+                                    });
+                                    pause.play();
                                 });
-                                pause.play();
-                            });
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                                Platform.runLater(() -> {
+                                    loginValidationLabel.setText("Error parsing JSON response.");
+                                    loginValidationLabel.setVisible(true);
+                                });
+                            }
                         } else {
                             Platform.runLater(() -> {
                                 loginValidationLabel.setText("Login failed.");
@@ -107,6 +129,16 @@ public class LoginController extends BaseController implements Initializable {
                     });
         });
         delay.play();
+    }
+
+    private void mockLogin() {
+        sceneManager.setStageSize(AppConfig.MAIN_STAGE_WIDTH, AppConfig.MAIN_STAGE_HEIGHT);
+        sceneManager.setMinSize(AppConfig.MAIN_STAGE_MIN_WIDTH,
+                AppConfig.MAIN_STAGE_MIN_HEIGHT);
+        sceneManager
+                .switchingScene(
+                        "/dev/hideftbanana/netcafejavafxapp/fxml/net_cafe_splash_screen.fxml");
+        return;
     }
 
     private String parseToken(String responseBody, String tokenName) {
