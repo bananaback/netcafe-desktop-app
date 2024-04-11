@@ -3,7 +3,6 @@ package dev.hideftbanana.netcafejavafxapp.controllers;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
@@ -17,6 +16,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.CompletableFuture;
@@ -37,8 +37,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 
@@ -55,11 +58,26 @@ public class ImageController extends BaseController implements Initializable {
     private Button nextButton;
     @FXML
     private Label pageLabel;
+    @FXML
+    private VBox imageGalleryVBox;
+    @FXML
+    private VBox imageDetailsVBox;
+    @FXML
+    private ImageView detailedImageView;
+    @FXML
+    private Label imageTitleLabel;
+    @FXML
+    private Button copyNameButton;
+    @FXML
+    private Button deleteImageButton;
+    @FXML
+    private Button exitButton;
 
     private ImageCache imageCache;
     private int pageSize = 10;
     private int page = 0;
     private int totalPages = 1;
+    private final String cacheFolderPath = "src/main/resources/images/";
 
     public void setImageCache(ImageCache imageCache) {
         this.imageCache = imageCache;
@@ -106,7 +124,7 @@ public class ImageController extends BaseController implements Initializable {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-
+            loadImages();
         }
     }
 
@@ -203,7 +221,10 @@ public class ImageController extends BaseController implements Initializable {
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-
+        prevButton.setDisable(true);
+        nextButton.setDisable(true);
+        imageGalleryVBox.setVisible(true);
+        imageDetailsVBox.setVisible(false);
     }
 
     // Method to handle the response when it is received
@@ -350,7 +371,15 @@ public class ImageController extends BaseController implements Initializable {
                             stackPane.getChildren().add(imageView);
 
                             // Add the StackPane to the imageFlowPane
-                            Platform.runLater(() -> imageFlowPane.getChildren().add(stackPane));
+                            Platform.runLater(() -> {
+                                imageFlowPane.getChildren().add(stackPane);
+
+                                // Add event listener for image view click
+                                stackPane.setOnMouseClicked(event -> {
+                                    // Handle image click event
+                                    displayImageDetails(imageName, image);
+                                });
+                            });
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -366,6 +395,105 @@ public class ImageController extends BaseController implements Initializable {
             throwable.printStackTrace();
             return null;
         });
+    }
+
+    private void displayImageDetails(String imageName, Image image) {
+        // Here you can display the image details using the imageName and image
+        // For example, you can show them in a separate view or dialog
+        // You can access the imageName and image and display them as needed
+        System.out.println("Image Name: " + imageName);
+        // Display image details view with imageName and image
+        // You can show this view in a separate dialog or change the visibility of an
+        // existing view
+        // For demonstration purposes, let's just print the image name and size
+        detailedImageView.setImage(image);
+        imageTitleLabel.setText(imageName);
+        imageDetailsVBox.setVisible(true);
+        imageGalleryVBox.setVisible(false);
+    }
+
+    @FXML
+    private void copyImageName() {
+        copyToClipboard(imageTitleLabel.getText());
+    }
+
+    private void copyToClipboard(String text) {
+        Clipboard clipboard = Clipboard.getSystemClipboard();
+        ClipboardContent content = new ClipboardContent();
+        content.putString(text);
+        clipboard.setContent(content);
+        showMessage("Copy image name successfully.\n" + text);
+    }
+
+    @FXML
+    private void deleteImage() {
+        String imageName = imageTitleLabel.getText(); // Get the image name
+        if (imageName != null && !imageName.isEmpty()) {
+            // Remove the image from the cache
+            imageCache.remove(imageName);
+            // Optionally, delete the image from the file system
+            // Delete the image from the file system
+            String imagePath = getCacheFilePath(imageName);
+            try {
+                Files.deleteIfExists(Paths.get(imagePath));
+                showMessage("Image deleted successfully: " + imageName);
+            } catch (IOException e) {
+                showMessage("Failed to delete image: " + imageName);
+                e.printStackTrace();
+            }
+            // Remove the image from Firebase Storage
+            // Make HttpClient call to delete the image
+            String accessToken = TokenManager.getAccessToken();
+            HttpClient httpClient = HttpClient.newHttpClient();
+            URI uri = getDeleteImageUri(imageName); // Construct URI for Firebase Storage delete endpoint
+            HttpRequest httpRequest = HttpRequest.newBuilder()
+                    .uri(uri)
+                    .DELETE()
+                    .header("Authorization", "Bearer " + accessToken)
+                    .build();
+            httpClient.sendAsync(httpRequest, HttpResponse.BodyHandlers.ofString())
+                    .thenAccept(this::handleFirebaseStorageDeleteResponse)
+                    .exceptionally(this::handleException);
+
+            loadImages();
+            exitImageDetail();
+            showMessage("Image deleted successfully: " + imageName);
+        } else {
+            showMessage("No image selected.");
+        }
+
+    }
+
+    // Get URI object for the delete image endpoint
+    private URI getDeleteImageUri(String imageName) {
+        try {
+            // Construct the URI for the delete image endpoint
+            return new URI("http://localhost:8080/api/image/pic/" + imageName);
+        } catch (URISyntaxException e) {
+            // Handle URISyntaxException
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    // Method to handle the response when deleting image from Firebase Storage
+    private void handleFirebaseStorageDeleteResponse(HttpResponse<String> httpResponse) {
+        // Check if the response status code is OK (200)
+        if (httpResponse.statusCode() == 200) {
+            showMessage("Image deleted from Firebase Storage successfully.");
+        } else {
+            showMessage("Failed to delete image from Firebase Storage. Status code: " + httpResponse.statusCode());
+        }
+    }
+
+    @FXML
+    private void exitImageDetail() {
+        imageDetailsVBox.setVisible(false);
+        imageGalleryVBox.setVisible(true);
+    }
+
+    private String getCacheFilePath(String key) {
+        return cacheFolderPath + key; // Modify if cache directory differs
     }
 
 }

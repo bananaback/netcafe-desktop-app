@@ -1,166 +1,120 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.hideftbanana.netcafejavafxapp.controllers.ImageController">
+<StackPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.hideftbanana.netcafejavafxapp.controllers.ImageController">
    <children>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #1c1c1c;">
+      <VBox fx:id="imageGalleryVBox">
          <children>
-            <Label text="Images" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="36.0" />
-               </font>
-            </Label>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #1c1c1c;">
+               <children>
+                  <Label text="Images" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="36.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="62.0" prefWidth="1440.0" spacing="40.0" style="-fx-background-color: #1c1c1c;">
+               <children>
+                  <Button fx:id="uploadButton" mnemonicParsing="false" onAction="#uploadImage" prefHeight="39.0" prefWidth="99.0" style="-fx-background-color: #827DFE;" text="UPLOAD" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="loadButton" mnemonicParsing="false" onAction="#loadImages" prefWidth="73.0" style="-fx-background-color: #827DFE;" text="LOAD" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Button>
+               </children>
+            </HBox>
+            <FlowPane fx:id="imageFlowPane" alignment="CENTER" columnHalignment="CENTER" hgap="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="632.0" prefWidth="1440.0" style="-fx-background-color: #1c1c1c;" vgap="20.0">
+               <children>
+            
          </children>
-      </HBox>
-      <HBox alignment="CENTER" prefHeight="62.0" prefWidth="1440.0" spacing="40.0" style="-fx-background-color: #1c1c1c;">
+            </FlowPane>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="40.0" style="-fx-background-color: #1c1c1c;">
+               <children>
+                  <Button fx:id="prevButton" mnemonicParsing="false" onAction="#gotoPreviousPage" style="-fx-background-color: #827DFE;" text="Prev" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Button>
+                  <Label fx:id="pageLabel" text="0/0" textFill="WHITE">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="nextButton" mnemonicParsing="false" onAction="#gotoNextPage" style="-fx-background-color: #827DFE;" text="Next" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <VBox fx:id="imageDetailsVBox" prefHeight="944.0" prefWidth="1440.0" style="-fx-background-color: #1c1c1c;">
          <children>
-            <Button fx:id="uploadButton" mnemonicParsing="false" onAction="#uploadImage" prefHeight="39.0" prefWidth="99.0" style="-fx-background-color: #827DFE;" text="UPLOAD" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font>
-            </Button>
-            <Button fx:id="loadButton" mnemonicParsing="false" onAction="#loadImages" prefWidth="73.0" style="-fx-background-color: #827DFE;" text="LOAD" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font>
-            </Button>
+            <HBox alignment="CENTER" prefHeight="111.0" prefWidth="1440.0">
+               <children>
+                  <Label text="Image details" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="36.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="668.0" prefWidth="1440.0">
+               <children>
+                  <ImageView fx:id="detailedImageView" fitHeight="500.0" fitWidth="500.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="161.0" prefWidth="1440.0">
+               <children>
+                  <HBox alignment="CENTER_LEFT" prefHeight="150.0" prefWidth="710.0">
+                     <HBox.margin>
+                        <Insets left="60.0" />
+                     </HBox.margin>
+                     <children>
+                        <Label fx:id="imageTitleLabel" text="This_is_image_name.jpg" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="24.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="150.0" prefWidth="730.0" spacing="102.0">
+                     <children>
+                        <Button onAction="#copyImageName" fx:id="copyNameButton" mnemonicParsing="false" prefHeight="60.0" prefWidth="119.0" style="-fx-background-color: #2C59FE;" text="Copy name" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Button>
+                        <Button onAction="#deleteImage" fx:id="deleteImageButton" mnemonicParsing="false" prefHeight="60.0" prefWidth="136.0" style="-fx-background-color: #FE0407;" text="Delete image" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Button>
+                        <Button onAction="#exitImageDetail" fx:id="exitButton" mnemonicParsing="false" prefHeight="60.0" prefWidth="136.0" style="-fx-background-color: #37235D;" text="Exit" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </HBox>
          </children>
-      </HBox>
-      <FlowPane fx:id="imageFlowPane" alignment="CENTER" columnHalignment="CENTER" hgap="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="632.0" prefWidth="1440.0" style="-fx-background-color: #1c1c1c;" vgap="20.0">
-         <children>
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@_52973a85-2e24-4197-ab00-5f178fa7eae8.jpg" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@_52973a85-2e24-4197-ab00-5f178fa7eae8.jpg" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@_52973a85-2e24-4197-ab00-5f178fa7eae8.jpg" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@_52973a85-2e24-4197-ab00-5f178fa7eae8.jpg" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@_52973a85-2e24-4197-ab00-5f178fa7eae8.jpg" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@_52973a85-2e24-4197-ab00-5f178fa7eae8.jpg" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@_52973a85-2e24-4197-ab00-5f178fa7eae8.jpg" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@_52973a85-2e24-4197-ab00-5f178fa7eae8.jpg" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@_52973a85-2e24-4197-ab00-5f178fa7eae8.jpg" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@_52973a85-2e24-4197-ab00-5f178fa7eae8.jpg" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@_52973a85-2e24-4197-ab00-5f178fa7eae8.jpg" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@_52973a85-2e24-4197-ab00-5f178fa7eae8.jpg" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@_52973a85-2e24-4197-ab00-5f178fa7eae8.jpg" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@_52973a85-2e24-4197-ab00-5f178fa7eae8.jpg" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@_52973a85-2e24-4197-ab00-5f178fa7eae8.jpg" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@_52973a85-2e24-4197-ab00-5f178fa7eae8.jpg" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@_52973a85-2e24-4197-ab00-5f178fa7eae8.jpg" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@_52973a85-2e24-4197-ab00-5f178fa7eae8.jpg" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@_52973a85-2e24-4197-ab00-5f178fa7eae8.jpg" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@_52973a85-2e24-4197-ab00-5f178fa7eae8.jpg" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@_52973a85-2e24-4197-ab00-5f178fa7eae8.jpg" />
-               </image>
-            </ImageView>
-         </children>
-      </FlowPane>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="40.0" style="-fx-background-color: #1c1c1c;">
-         <children>
-            <Button onAction="#gotoPreviousPage" fx:id="prevButton" mnemonicParsing="false" style="-fx-background-color: #827DFE;" text="Prev" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font>
-            </Button>
-            <Label fx:id="pageLabel" text="0/0" textFill="WHITE">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <Button onAction="#gotoNextPage" fx:id="nextButton" mnemonicParsing="false" style="-fx-background-color: #827DFE;" text="Next" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font>
-            </Button>
-         </children>
-      </HBox>
+      </VBox>
    </children>
-</VBox>
+</StackPane>
