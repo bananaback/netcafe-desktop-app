@@ -34,6 +34,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
@@ -48,10 +49,17 @@ public class ImageController extends BaseController implements Initializable {
     private Button loadButton;
     @FXML
     private Button uploadButton;
+    @FXML
+    private Button prevButton;
+    @FXML
+    private Button nextButton;
+    @FXML
+    private Label pageLabel;
 
     private ImageCache imageCache;
     private int pageSize = 10;
     private int page = 0;
+    private int totalPages = 1;
 
     public void setImageCache(ImageCache imageCache) {
         this.imageCache = imageCache;
@@ -211,6 +219,22 @@ public class ImageController extends BaseController implements Initializable {
                 // Now you can access the image names and size from the response object
                 System.out.println("Image Names: " + imageNames);
                 System.out.println("Total Size: " + imagesResponse.getSize());
+
+                // Calculate the total number of pages
+                int totalImages = imagesResponse.getSize();
+                totalPages = (int) Math.ceil((double) totalImages / pageSize);
+                System.out.println("Total images:" + totalImages);
+                System.out.println("Total pages: " + totalPages);
+
+                // Calculate the current page
+                int currentPage = page + 1; // Since page is zero-based
+
+                // Update the page label
+                Platform.runLater(() -> {
+                    pageLabel.setText(currentPage + "/" + totalPages);
+                });
+
+                updatePagingButtons();
                 renderImages(imageNames);
             } catch (IOException e) {
                 // Handle IOException
@@ -221,6 +245,32 @@ public class ImageController extends BaseController implements Initializable {
             System.out.println("Failed to fetch image names. Status code: " + httpResponse.statusCode());
         }
         loadButton.setDisable(false);
+    }
+
+    @FXML
+    private void gotoPreviousPage() {
+        if (page > 0) {
+            page--;
+        }
+        loadImages();
+    }
+
+    @FXML
+    private void gotoNextPage() {
+        if (page < totalPages) {
+            page++;
+            loadImages();
+        }
+    }
+
+    private void updatePagingButtons() {
+        Platform.runLater(() -> {
+            // Disable prevButton when on the first page
+            prevButton.setDisable(page == 0);
+
+            // Disable nextButton when on the last page
+            nextButton.setDisable(page >= totalPages - 1);
+        });
     }
 
     // Method to handle exceptions occurred during the HTTP request

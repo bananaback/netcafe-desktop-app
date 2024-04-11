@@ -2,7 +2,6 @@ package dev.hideftbanana.netcafejavafxapp;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-import net.bytebuddy.description.field.FieldDescription.Token;
 
 import java.io.IOException;
 

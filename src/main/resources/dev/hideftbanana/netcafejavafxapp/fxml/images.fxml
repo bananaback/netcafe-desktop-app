@@ -145,17 +145,17 @@
       </FlowPane>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="40.0" style="-fx-background-color: #1c1c1c;">
          <children>
-            <Button mnemonicParsing="false" style="-fx-background-color: #827DFE;" text="Prev" textFill="WHITE">
+            <Button onAction="#gotoPreviousPage" fx:id="prevButton" mnemonicParsing="false" style="-fx-background-color: #827DFE;" text="Prev" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Button>
-            <Label text="1/10" textFill="WHITE">
+            <Label fx:id="pageLabel" text="0/0" textFill="WHITE">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Button mnemonicParsing="false" style="-fx-background-color: #827DFE;" text="Next" textFill="WHITE">
+            <Button onAction="#gotoNextPage" fx:id="nextButton" mnemonicParsing="false" style="-fx-background-color: #827DFE;" text="Next" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
