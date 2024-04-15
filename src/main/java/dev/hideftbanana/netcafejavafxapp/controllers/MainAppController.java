@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import dev.hideftbanana.netcafejavafxapp.datamodels.ProductCategoryDataModel;
 import dev.hideftbanana.netcafejavafxapp.services.cacheservices.ImageCache;
 
 public class MainAppController extends BaseController implements Initializable {
@@ -33,9 +34,12 @@ public class MainAppController extends BaseController implements Initializable {
     private Button monitorButton;
     @FXML
     private Button resourcesButton;
+    @FXML
+    private Button categoriesButton;
     private FadeTransition fadeTransition;
 
     private ImageCache imageCache;
+    private ProductCategoryDataModel productCategoryDataModel;
 
     public void setImageCache(ImageCache imageCache) {
         this.imageCache = imageCache;
@@ -52,6 +56,7 @@ public class MainAppController extends BaseController implements Initializable {
         servicesButton.setOnAction(event -> handleButtonSelection(servicesButton));
         monitorButton.setOnAction(event -> handleButtonSelection(monitorButton));
         resourcesButton.setOnAction(event -> handleButtonSelection(resourcesButton));
+        categoriesButton.setOnAction(event -> handleButtonSelection(categoriesButton));
     }
 
     private void fadeElementsIn() {
@@ -77,6 +82,7 @@ public class MainAppController extends BaseController implements Initializable {
         servicesButton.setStyle("-fx-background-color: #1C1A1A;");
         monitorButton.setStyle("-fx-background-color: #1C1A1A;");
         resourcesButton.setStyle("-fx-background-color: #1C1A1A;");
+        categoriesButton.setStyle("-fx-background-color: #1C1A1A;");
 
         // Select the clicked button
         selectedButton.setStyle("-fx-background-color: #197B1D;");
@@ -86,6 +92,8 @@ public class MainAppController extends BaseController implements Initializable {
             replaceCenterWithFXML("/dev/hideftbanana/netcafejavafxapp/fxml/images.fxml");
         } else if (selectedButton == dashboardButton) {
             replaceCenterWithFXML("/dev/hideftbanana/netcafejavafxapp/fxml/welcome_center_section.fxml");
+        } else if (selectedButton == categoriesButton) {
+            replaceCenterWithFXML("/dev/hideftbanana/netcafejavafxapp/fxml/category_management.fxml");
         }
     }
 
@@ -97,6 +105,10 @@ public class MainAppController extends BaseController implements Initializable {
             if (controller instanceof ImageController) {
                 ImageController imageController = (ImageController) controller;
                 imageController.setImageCache(imageCache);
+            } else if (controller instanceof CategoryController) {
+                CategoryController categoryController = (CategoryController) controller;
+                categoryController.setImageCache(imageCache);
+                categoryController.setDataModel(productCategoryDataModel);
             }
             newCenter.setOpacity(0); // Set opacity to 0 initially
 
@@ -119,6 +131,10 @@ public class MainAppController extends BaseController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void setProductCategoryDataModel(ProductCategoryDataModel productCategoryDataModel) {
+        this.productCategoryDataModel = productCategoryDataModel;
     }
 
 }

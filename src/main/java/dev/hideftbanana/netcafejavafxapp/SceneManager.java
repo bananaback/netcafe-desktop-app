@@ -1,29 +1,30 @@
 package dev.hideftbanana.netcafejavafxapp;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import dev.hideftbanana.netcafejavafxapp.controllers.BaseController;
 import dev.hideftbanana.netcafejavafxapp.controllers.MainAppController;
+import dev.hideftbanana.netcafejavafxapp.datamodels.ProductCategoryDataModel;
 import dev.hideftbanana.netcafejavafxapp.services.cacheservices.ImageCache;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class SceneManager {
     private final Stage rootStage;
     private final ImageCache imageCache;
+    private final ProductCategoryDataModel productCategoryDataModel;
 
-    public SceneManager(Stage rootStage, ImageCache imageCache) {
-        if (rootStage == null || imageCache == null) {
-            throw new IllegalArgumentException("Root stage and image cache must not be null.");
+    public SceneManager(Stage rootStage, ImageCache imageCache, ProductCategoryDataModel productCategoryDataModel) {
+        if (rootStage == null || imageCache == null || productCategoryDataModel == null) {
+            throw new IllegalArgumentException("Root stage, image cache and data models must not be null.");
         }
         this.rootStage = rootStage;
         this.imageCache = imageCache;
+        this.productCategoryDataModel = productCategoryDataModel;
     }
 
     private final Map<String, Scene> scenes = new HashMap<>();
@@ -38,6 +39,7 @@ public class SceneManager {
                     if (controller instanceof MainAppController) {
                         MainAppController mainAppController = (MainAppController) controller;
                         mainAppController.setImageCache(imageCache);
+                        mainAppController.setProductCategoryDataModel(productCategoryDataModel);
                         System.out.println("Image cache passed to MainAppController!!!");
                     }
                     return controller;
