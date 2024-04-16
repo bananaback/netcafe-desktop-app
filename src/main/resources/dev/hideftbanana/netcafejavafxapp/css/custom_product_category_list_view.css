@@ -1,0 +1,36 @@
+/* CustomListView.css */
+.custom-list-view .list-cell:filled:selected,
+.custom-list-view .list-cell:filled:focused {
+    -fx-background-color: #1c1c1c;
+    -fx-text-fill: white;
+}
+
+.custom-list-view .list-cell:filled:selected:focused,
+.custom-list-view .list-cell:filled:selected:hover,
+.custom-list-view .list-cell:filled:hover {
+    -fx-background-color: #1c1c1c;
+    -fx-background-insets: 0;
+}
+
+.custom-list-view .list-cell {
+    -fx-padding: 0px;
+}
+
+.custom-list-view {
+    /*-fx-background-color: #0051ff;*/
+    -fx-control-inner-background: rgb(30, 30, 32);
+}
+
+/* Remove focus styling */
+.custom-list-view .list-cell:filled:focused {
+    -fx-background-color: #1c1c1c;
+    -fx-text-fill: white;
+    -fx-background-insets: 0;
+}
+
+/* this doesn't work, just here for excluding when debugging*/
+/* CustomListView.css */
+.custom-list-view .viewport {
+    -fx-background-color: #00ff9d;
+    /* Set background color for the viewport */
+}

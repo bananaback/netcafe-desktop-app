@@ -12,9 +12,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox fx:controller="dev.hideftbanana.netcafejavafxapp.controllers.CategoryController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1440.0" style="-fx-background-color: #131111; -fx-border-color: black; -fx-border-width: 4 0 4 0px;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1440.0" style="-fx-background-color: #131111; -fx-border-color: black; -fx-border-width: 4 0 4 0px;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.hideftbanana.netcafejavafxapp.controllers.CategoryController">
    <children>
-      <VBox prefHeight="750.0" prefWidth="470.0" style="-fx-border-color: black; -fx-border-width: 0 4 0 0px;">
+      <VBox maxHeight="1.7976931348623157E308" minHeight="742.0" prefHeight="750.0" prefWidth="470.0" style="-fx-border-color: black; -fx-border-width: 0 4 0 0px;" HBox.hgrow="ALWAYS">
          <children>
             <VBox alignment="CENTER" prefHeight="166.0" prefWidth="452.0">
                <children>
@@ -25,9 +25,9 @@
                   </Label>
                </children>
             </VBox>
-            <VBox prefHeight="708.0" prefWidth="428.0">
+            <VBox maxHeight="1.7976931348623157E308" minHeight="642.0" prefHeight="708.0" prefWidth="459.0" style="-fx-background-color: black;" VBox.vgrow="ALWAYS">
                <children>
-                  <ListView fx:id="categoryListView" prefHeight="731.0" prefWidth="428.0" style="-fx-background-color: #131111;" />
+                  <ListView fx:id="categoryListView" maxHeight="1.7976931348623157E308" minHeight="642.0" prefHeight="731.0" prefWidth="428.0" styleClass="custom-list-view" VBox.vgrow="ALWAYS" />
                </children>
             </VBox>
          </children>
@@ -92,15 +92,20 @@
                         </VBox>
                      </children>
                   </HBox>
-                  <VBox alignment="CENTER" prefHeight="189.0" prefWidth="988.0">
+                  <HBox alignment="CENTER" prefHeight="181.0" prefWidth="988.0" spacing="100.0">
                      <children>
                         <Button fx:id="saveButton" mnemonicParsing="false" style="-fx-background-color: #324546;" text="SAVE" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="24.0" />
                            </font>
                         </Button>
+                        <Button fx:id="deleteButton" mnemonicParsing="false" style="-fx-background-color: red;" text="DELETE" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="24.0" />
+                           </font>
+                        </Button>
                      </children>
-                  </VBox>
+                  </HBox>
                </children>
             </VBox>
          </children>

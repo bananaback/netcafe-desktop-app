@@ -29,6 +29,10 @@ public class CategoryController extends BaseController implements Initializable 
         if (this.productCategoryDataModel != null) {
             throw new IllegalStateException("Model can only be initialized once");
         }
+        this.categoryListView.getStylesheets()
+                .add(getClass()
+                        .getResource("/dev/hideftbanana/netcafejavafxapp/css/custom_product_category_list_view.css")
+                        .toExternalForm());
         this.productCategoryDataModel = productCategoryDataModel;
         this.productCategoryDataModel.loadData();
 
