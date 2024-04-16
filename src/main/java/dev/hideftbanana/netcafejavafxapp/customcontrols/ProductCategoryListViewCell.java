@@ -1,6 +1,5 @@
 package dev.hideftbanana.netcafejavafxapp.customcontrols;
 
-import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 
 import dev.hideftbanana.netcafejavafxapp.datamodels.ProductCategoryListItemData;
@@ -21,12 +20,23 @@ public class ProductCategoryListViewCell extends ListCell<ProductCategory> {
     @Override
     public void updateItem(ProductCategory productCategory, boolean empty) {
         super.updateItem(productCategory, empty);
-        if (productCategory != null) {
+        if (productCategory != null && !empty) {
             ProductCategoryListItemData data = new ProductCategoryListItemData();
             data.setName(productCategory.getCategoryName());
             // Load image asynchronously
             loadImageAsync(productCategory.getImageLink(), data);
             setGraphic(data.getBox());
+
+            // Apply selected styling if the cell is selected
+            if (isSelected()) {
+                setStyle("-fx-background-color: #123456;");
+            } else {
+                setStyle(""); // Clear selected styling
+            }
+        } else {
+            setGraphic(null);
+            setText(null);
+            setStyle(""); // Clear any previous styling
         }
     }
 
