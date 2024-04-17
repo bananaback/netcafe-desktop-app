@@ -20,6 +20,7 @@ import dev.hideftbanana.netcafejavafxapp.models.ProductCategory;
 import dev.hideftbanana.netcafejavafxapp.models.responses.ImagesResponse;
 import dev.hideftbanana.netcafejavafxapp.services.cacheservices.ImageCache;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -49,6 +50,15 @@ public class CategoryController extends BaseController implements Initializable 
 
     @FXML
     private ListView<ProductCategory> categoryListView;
+
+    // Define the listener as a separate variable
+    private final ChangeListener<String> imageLinkListener = (obsImage, oldImage, newImage) -> {
+
+        categoryListView.refresh(); // Refresh the ListView to reflect the changes
+        System.out.println(productCategoryDataModel.getCurrentProductCategory().getImageLink());
+
+    };
+
     @FXML
     private TextField categoryNameTextField;
     @FXML
@@ -71,6 +81,63 @@ public class CategoryController extends BaseController implements Initializable 
         this.productCategoryDataModel = productCategoryDataModel;
         this.productCategoryDataModel.loadData();
 
+        // ------------------------------------------------------
+        CompletableFuture<List<String>> futureImageNames = loadImageNamesAsync();
+        futureImageNames.thenAcceptAsync(imageNames -> {
+            Platform.runLater(() -> { // Ensure UI-related code runs on the JavaFX Application Thread
+                System.out.println("Received image names:");
+                for (String imageName : imageNames) {
+                    System.out.println(imageName);
+                }
+                ObservableList<String> observableList = FXCollections.observableArrayList(imageNames);
+                categoryImageComboBox.setItems(observableList);
+
+                categoryImageComboBox.setCellFactory(param -> new ListCell<String>() {
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (!empty) {
+                            setGraphic(buildLayout(item));
+                        } else {
+                            setGraphic(null);
+                        }
+                    }
+                });
+
+                FxUtilTest.autoCompleteComboBoxPlus(categoryImageComboBox, (typedText, itemToCompare) -> itemToCompare
+                        .toLowerCase().contains(typedText.toLowerCase()));
+
+                categoryImageComboBox.setConverter(new StringConverter<String>() {
+
+                    @Override
+                    public String toString(String object) {
+                        return object != null ? object : "";
+                    }
+
+                    @Override
+                    public String fromString(String string) {
+                        return categoryImageComboBox.getItems().stream().filter(object -> object.equals(string))
+                                .findFirst()
+                                .orElse(null);
+                    }
+
+                });
+
+                ComboBoxListViewSkin<String> comboBoxListViewSkin = new ComboBoxListViewSkin<String>(
+                        categoryImageComboBox);
+                comboBoxListViewSkin.getPopupContent().addEventFilter(KeyEvent.ANY, (KeyEvent event) -> {
+                    if (event.getCode() == KeyCode.SPACE) {
+                        event.consume();
+                    }
+                });
+                categoryImageComboBox.setSkin(comboBoxListViewSkin);
+
+                categoryImageComboBox.setVisibleRowCount(5);
+
+            });
+        });
+        // --------------------------------------------------
+
         this.categoryListView.setItems(productCategoryDataModel.getProductCategoryList());
 
         this.categoryListView.setCellFactory(
@@ -84,27 +151,30 @@ public class CategoryController extends BaseController implements Initializable 
         categoryListView.getSelectionModel().selectedItemProperty().addListener(
                 (obs, oldSelection, newSelection) -> productCategoryDataModel.setCurrentProductCategory(newSelection));
 
-        productCategoryDataModel.currentProductCategoryProperty()
-                .addListener((obs, oldProductCategory, newProductCategory) -> {
-                    if (newProductCategory == null) {
-                        categoryListView.getSelectionModel().clearSelection();
-                    } else {
-                        categoryListView.getSelectionModel().select(newProductCategory);
-                        categoryNameTextField.setText(newProductCategory.getCategoryName());
-                        CompletableFuture.supplyAsync(() -> {
-                            byte[] imageData = imageCache.get(newProductCategory.getImageLink()); // Blocking call
-                            return new Image(new ByteArrayInputStream(imageData));
-                        }).thenAcceptAsync(image -> {
-                            Platform.runLater(() -> {
-                                if (image != null) {
-                                    currentProductCategoryImageView.setImage(image);
-                                } else {
-                                    // Set default image or handle error
-                                }
-                            });
-                        });
-                    }
-                });
+        productCategoryDataModel.currentProductCategoryProperty().addListener((obs, oldValue, newValue) -> {
+            if (oldValue != null) {
+                oldValue.imageLinkProperty().removeListener(imageLinkListener);
+            }
+            if (newValue == null) {
+                categoryImageComboBox.setValue(null);
+            } else {
+                // Bind the valueProperty of the ComboBox bidirectionally to the
+                // imageLinkProperty of the selected ProductCategory
+                categoryImageComboBox.valueProperty().setValue(newValue.getImageLink());
+                // Add listener to update the ListView when the imageLinkProperty changes
+                newValue.imageLinkProperty().addListener(imageLinkListener);
+            }
+            System.out.println(productCategoryDataModel.getCurrentProductCategory().getImageLink());
+
+        });
+
+        categoryImageComboBox.valueProperty().addListener((obs, oldImageName, newImageName) -> {
+            if (newImageName != null) {
+                productCategoryDataModel.currentProductCategoryProperty().get().imageLinkProperty()
+                        .setValue(newImageName);
+
+            }
+        });
 
     }
 
@@ -175,59 +245,25 @@ public class CategoryController extends BaseController implements Initializable 
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        CompletableFuture<List<String>> futureImageNames = loadImageNamesAsync();
-        futureImageNames.thenAcceptAsync(imageNames -> {
-            Platform.runLater(() -> { // Ensure UI-related code runs on the JavaFX Application Thread
-                System.out.println("Received image names:");
-                for (String imageName : imageNames) {
-                    System.out.println(imageName);
-                }
-                ObservableList<String> observableList = FXCollections.observableArrayList(imageNames);
-                categoryImageComboBox.setItems(observableList);
 
-                categoryImageComboBox.setCellFactory(param -> new ListCell<String>() {
-                    @Override
-                    protected void updateItem(String item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (!empty) {
-                            setGraphic(buildLayout(item));
-                        } else {
-                            setGraphic(null);
-                        }
+    }
+
+    private void updateSelectedImage() {
+        String imageName = productCategoryDataModel.currentProductCategoryProperty().get().imageLinkProperty().get();
+        if (imageName != null) {
+            CompletableFuture.supplyAsync(() -> {
+                byte[] imageData = imageCache.get(imageName);
+                return new Image(new ByteArrayInputStream(imageData));
+            }).thenAcceptAsync(image -> {
+                Platform.runLater(() -> {
+                    if (image != null) {
+                        currentProductCategoryImageView.setImage(image);
+                    } else {
+                        // Set default image or handle error
                     }
                 });
-
-                FxUtilTest.autoCompleteComboBoxPlus(categoryImageComboBox, (typedText, itemToCompare) -> itemToCompare
-                        .toLowerCase().contains(typedText.toLowerCase()));
-
-                categoryImageComboBox.setConverter(new StringConverter<String>() {
-
-                    @Override
-                    public String toString(String object) {
-                        return object != null ? object : "";
-                    }
-
-                    @Override
-                    public String fromString(String string) {
-                        return categoryImageComboBox.getItems().stream().filter(object -> object.equals(string))
-                                .findFirst()
-                                .orElse(null);
-                    }
-
-                });
-
-                ComboBoxListViewSkin<String> comboBoxListViewSkin = new ComboBoxListViewSkin<String>(
-                        categoryImageComboBox);
-                comboBoxListViewSkin.getPopupContent().addEventFilter(KeyEvent.ANY, (KeyEvent event) -> {
-                    if (event.getCode() == KeyCode.SPACE) {
-                        event.consume();
-                    }
-                });
-                categoryImageComboBox.setSkin(comboBoxListViewSkin);
-
-                categoryImageComboBox.setVisibleRowCount(5);
             });
-        });
+        }
     }
 
 }
