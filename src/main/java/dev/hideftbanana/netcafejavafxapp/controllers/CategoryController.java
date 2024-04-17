@@ -50,6 +50,12 @@ public class CategoryController extends BaseController implements Initializable 
 
     @FXML
     private ListView<ProductCategory> categoryListView;
+    @FXML
+    private TextField categoryNameTextField;
+    @FXML
+    private ImageView currentProductCategoryImageView;
+    @FXML
+    private ComboBox<String> categoryImageComboBox;
 
     // Define the listener as a separate variable
     private final ChangeListener<String> imageLinkListener = (obsImage, oldImage, newImage) -> {
@@ -245,7 +251,59 @@ public class CategoryController extends BaseController implements Initializable 
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
+        CompletableFuture<List<String>> futureImageNames = loadImageNamesAsync();
+        futureImageNames.thenAcceptAsync(imageNames -> {
+            Platform.runLater(() -> { // Ensure UI-related code runs on the JavaFX Application Thread
+                System.out.println("Received image names:");
+                for (String imageName : imageNames) {
+                    System.out.println(imageName);
+                }
+                ObservableList<String> observableList = FXCollections.observableArrayList(imageNames);
+                categoryImageComboBox.setItems(observableList);
 
+                categoryImageComboBox.setCellFactory(param -> new ListCell<String>() {
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (!empty) {
+                            setGraphic(buildLayout(item));
+                        } else {
+                            setGraphic(null);
+                        }
+                    }
+                });
+
+                FxUtilTest.autoCompleteComboBoxPlus(categoryImageComboBox, (typedText, itemToCompare) -> itemToCompare
+                        .toLowerCase().contains(typedText.toLowerCase()));
+
+                categoryImageComboBox.setConverter(new StringConverter<String>() {
+
+                    @Override
+                    public String toString(String object) {
+                        return object != null ? object : "";
+                    }
+
+                    @Override
+                    public String fromString(String string) {
+                        return categoryImageComboBox.getItems().stream().filter(object -> object.equals(string))
+                                .findFirst()
+                                .orElse(null);
+                    }
+
+                });
+
+                ComboBoxListViewSkin<String> comboBoxListViewSkin = new ComboBoxListViewSkin<String>(
+                        categoryImageComboBox);
+                comboBoxListViewSkin.getPopupContent().addEventFilter(KeyEvent.ANY, (KeyEvent event) -> {
+                    if (event.getCode() == KeyCode.SPACE) {
+                        event.consume();
+                    }
+                });
+                categoryImageComboBox.setSkin(comboBoxListViewSkin);
+
+                categoryImageComboBox.setVisibleRowCount(5);
+            });
+        });
     }
 
     private void updateSelectedImage() {
