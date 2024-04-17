@@ -56,6 +56,33 @@ public class FxUtilTest {
                         caretPos = comboBox.getEditor().getCaretPosition();
                     }
                 } else if (event.getCode() == KeyCode.ENTER) {
+                    if (comboBox.getSelectionModel().getSelectedItem() == null) {
+                        String enteredText = comboBox.getEditor().getText();
+                        ObservableList<T> list = FXCollections.observableArrayList();
+                        for (T aData : data) {
+                            if (aData != null && enteredText != null && comparatorMethod.matches(enteredText, aData)) {
+                                list.add(aData);
+                            }
+                        }
+                        if (!list.isEmpty()) {
+                            comboBox.getSelectionModel().select(list.get(0));
+                            comboBox.getEditor().setText(comboBox.getConverter().toString(list.get(0)));
+                        }
+                    }
+                    return;
+                } else if (event.getCode() == KeyCode.V && event.isShortcutDown()) {
+                    // Handle paste event
+                    String pastedText = comboBox.getEditor().getText();
+                    ObservableList<T> list = FXCollections.observableArrayList();
+                    for (T aData : data) {
+                        if (aData != null && pastedText != null && comparatorMethod.matches(pastedText, aData)) {
+                            list.add(aData);
+                        }
+                    }
+                    comboBox.setItems(list);
+                    if (!list.isEmpty()) {
+                        comboBox.show();
+                    }
                     return;
                 }
 
