@@ -6,6 +6,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
+import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse;
 import java.util.ResourceBundle;
 
@@ -64,7 +65,7 @@ public class LoginController extends BaseController implements Initializable {
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(getUri())
                     .header("Content-Type", "application/json")
-                    .POST(HttpRequest.BodyPublishers.ofString(jsonInputString))
+                    .POST(BodyPublishers.ofString(jsonInputString))
                     .build();
 
             // Send request and handle response

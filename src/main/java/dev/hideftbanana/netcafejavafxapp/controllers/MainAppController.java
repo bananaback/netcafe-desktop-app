@@ -27,6 +27,8 @@ public class MainAppController extends BaseController implements Initializable {
     @FXML
     private HBox centerHBox;
     @FXML
+    private HBox rightHBox;
+    @FXML
     private Button dashboardButton;
     @FXML
     private Button servicesButton;
@@ -48,6 +50,7 @@ public class MainAppController extends BaseController implements Initializable {
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         replaceCenterWithFXML("/dev/hideftbanana/netcafejavafxapp/fxml/welcome_center_section.fxml");
+        rightHBox.setPrefWidth(0);
 
         fadeElementsIn();
 
@@ -90,10 +93,51 @@ public class MainAppController extends BaseController implements Initializable {
         // Replace the center section with the appropriate FXML content
         if (selectedButton == resourcesButton) {
             replaceCenterWithFXML("/dev/hideftbanana/netcafejavafxapp/fxml/images.fxml");
+            rightHBox.getChildren().clear();
         } else if (selectedButton == dashboardButton) {
             replaceCenterWithFXML("/dev/hideftbanana/netcafejavafxapp/fxml/welcome_center_section.fxml");
+            rightHBox.getChildren().clear();
         } else if (selectedButton == categoriesButton) {
             replaceCenterWithFXML("/dev/hideftbanana/netcafejavafxapp/fxml/category_management.fxml");
+            rightHBox.getChildren().clear();
+        } else if (selectedButton == monitorButton) {
+            replaceCenterWithFXML("/dev/hideftbanana/netcafejavafxapp/fxml/monitor_center.fxml");
+            setRightContent("/dev/hideftbanana/netcafejavafxapp/fxml/monitor_right.fxml");
+        }
+    }
+
+    private void setRightContent(String fxmlFileName) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFileName));
+            Parent newRightContent = loader.load();
+            BaseController controller = loader.getController();
+            // If the controller is an instance of any specific controller, you can pass
+            // required data
+            // For example:
+            // if (controller instanceof RightContentController) {
+            // RightContentController rightController = (RightContentController) controller;
+            // // Set necessary data to the controller
+            // }
+            newRightContent.setOpacity(0); // Set opacity to 0 initially
+
+            // Cancel any ongoing fade transition
+            if (fadeTransition != null && fadeTransition.getStatus() == Animation.Status.RUNNING) {
+                fadeTransition.stop();
+            }
+
+            // Add newRightContent to rightHBox
+            rightHBox.getChildren().clear();
+            rightHBox.getChildren().add(newRightContent);
+            rightHBox.setAlignment(Pos.CENTER);
+
+            // Create a new fade transition for the new right content
+            fadeTransition = new FadeTransition(Duration.seconds(2), newRightContent);
+            fadeTransition.setFromValue(0);
+            fadeTransition.setToValue(1);
+            fadeTransition.play();
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -110,24 +154,11 @@ public class MainAppController extends BaseController implements Initializable {
                 categoryController.setImageCache(imageCache);
                 categoryController.setDataModel(productCategoryDataModel);
             }
-            newCenter.setOpacity(0); // Set opacity to 0 initially
-
-            // Cancel any ongoing fade transition
-            if (fadeTransition != null && fadeTransition.getStatus() == Animation.Status.RUNNING) {
-                fadeTransition.stop();
-            }
 
             // Add newCenter to centerHBox
             centerHBox.getChildren().clear();
             centerHBox.getChildren().add(newCenter);
             centerHBox.setAlignment(Pos.CENTER);
-
-            // Create a new fade transition for the new center content
-            fadeTransition = new FadeTransition(Duration.seconds(2), newCenter);
-            fadeTransition.setFromValue(0);
-            fadeTransition.setToValue(1);
-            fadeTransition.play();
-
         } catch (IOException e) {
             e.printStackTrace();
         }

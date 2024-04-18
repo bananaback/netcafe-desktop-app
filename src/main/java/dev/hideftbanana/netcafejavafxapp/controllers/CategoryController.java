@@ -20,12 +20,15 @@ import dev.hideftbanana.netcafejavafxapp.models.ProductCategory;
 import dev.hideftbanana.netcafejavafxapp.models.responses.ImagesResponse;
 import dev.hideftbanana.netcafejavafxapp.services.cacheservices.ImageCache;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
@@ -47,6 +50,7 @@ public class CategoryController extends BaseController implements Initializable 
 
     private ProductCategoryDataModel productCategoryDataModel;
     private ImageCache imageCache;
+    private StringProperty imageNameProperty = new SimpleStringProperty();
 
     @FXML
     private ListView<ProductCategory> categoryListView;
@@ -65,6 +69,46 @@ public class CategoryController extends BaseController implements Initializable 
     private ImageView currentProductCategoryImageView;
     @FXML
     private ComboBox<String> categoryImageComboBox;
+
+    @FXML
+    private Button addButton;
+    @FXML
+    private Label validationLabel;
+
+    @FXML
+    private void addNewProductCategory() {
+        ProductCategory productCategory = new ProductCategory();
+        productCategory.setCategoryName("Default category name.");
+        productCategory.setImageLink("86a1a96d-90ed-4283-97c2-e68fdfa576a1.jpg");
+        productCategory.setValidationText("");
+        productCategoryDataModel.addCategory(productCategory);
+
+        categoryListView.setItems(productCategoryDataModel.getProductCategoryList());
+        categoryListView.refresh();
+    }
+
+    @FXML
+    private void saveCurrentProductCategory() {
+        // Call the saveData() method of the ProductCategoryDataModel
+        CompletableFuture<Void> saveFuture = productCategoryDataModel.saveData();
+
+        // Handle the completion of the save operation
+        saveFuture.thenAccept(result -> {
+            // Update the UI on the JavaFX Application Thread
+            Platform.runLater(() -> {
+                categoryListView.setItems(null);
+                categoryListView.refresh();
+                categoryListView.setItems(productCategoryDataModel.getProductCategoryList());
+                categoryListView.refresh();
+                System.out.println("Save operation completed successfully");
+            });
+        }).exceptionally(ex -> {
+            // Handle exceptions that occurred during the save operation
+            // For example, display an error message or log the exception
+            ex.printStackTrace();
+            return null;
+        });
+    }
 
     public void setImageCache(ImageCache imageCache) {
         this.imageCache = imageCache;
@@ -154,26 +198,56 @@ public class CategoryController extends BaseController implements Initializable 
         productCategoryDataModel.currentProductCategoryProperty().addListener((obs, oldValue, newValue) -> {
             if (oldValue != null) {
                 oldValue.imageLinkProperty().removeListener(imageLinkListener);
+                oldValue.categoryNameProperty().removeListener(imageLinkListener);
+                oldValue.valiationTextProperty().removeListener(imageLinkListener);
+
             }
             if (newValue == null) {
                 categoryImageComboBox.setValue(null);
+                categoryNameTextField.textProperty().setValue(null);
+                validationLabel.textProperty().setValue(null);
             } else {
                 // Bind the valueProperty of the ComboBox bidirectionally to the
                 // imageLinkProperty of the selected ProductCategory
                 categoryImageComboBox.valueProperty().setValue(newValue.getImageLink());
+                categoryNameTextField.textProperty().setValue(newValue.getCategoryName());
+                imageNameProperty.setValue(newValue.getImageLink());
                 // Add listener to update the ListView when the imageLinkProperty changes
                 newValue.imageLinkProperty().addListener(imageLinkListener);
+                newValue.categoryNameProperty().addListener(imageLinkListener);
+                newValue.valiationTextProperty().addListener(imageLinkListener);
             }
-            System.out.println(productCategoryDataModel.getCurrentProductCategory().getImageLink());
+            // System.out.println(productCategoryDataModel.getCurrentProductCategory().getImageLink());
 
         });
 
         categoryImageComboBox.valueProperty().addListener((obs, oldImageName, newImageName) -> {
             if (newImageName != null) {
-                productCategoryDataModel.currentProductCategoryProperty().get().imageLinkProperty()
-                        .setValue(newImageName);
-
+                ProductCategory currentCategory = productCategoryDataModel.currentProductCategoryProperty().get();
+                if (!newImageName.equals(currentCategory.getImageLink())) {
+                    currentCategory.imageLinkProperty().setValue(newImageName);
+                    if (!currentCategory.getIsNew()) {
+                        currentCategory.isModifiedProperty().setValue(true);
+                    }
+                    imageNameProperty.setValue(newImageName);
+                }
             }
+        });
+
+        categoryNameTextField.textProperty().addListener((obs, oldCategoryName, newCategoryName) -> {
+            if (newCategoryName != null) {
+                ProductCategory currentCategory = productCategoryDataModel.currentProductCategoryProperty().get();
+                if (!newCategoryName.equals(currentCategory.getCategoryName())) {
+                    currentCategory.categoryNameProperty().setValue(newCategoryName);
+                    if (!currentCategory.getIsNew()) {
+                        currentCategory.isModifiedProperty().setValue(true);
+                    }
+                }
+            }
+        });
+
+        imageNameProperty.addListener((obs, oldV, newV) -> {
+            updateSelectedImage();
         });
 
     }
@@ -220,7 +294,7 @@ public class CategoryController extends BaseController implements Initializable 
     public CompletableFuture<List<String>> loadImageNamesAsync() {
         HttpClient httpClient = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/api/image"))
+                .uri(URI.create("http://localhost:8080/api/image?page=0&pageSize=100"))
                 .header("Authorization", "Bearer " + TokenManager.getAccessToken())
                 .build();
 
@@ -249,7 +323,7 @@ public class CategoryController extends BaseController implements Initializable 
     }
 
     private void updateSelectedImage() {
-        String imageName = productCategoryDataModel.currentProductCategoryProperty().get().imageLinkProperty().get();
+        String imageName = imageNameProperty.get();
         if (imageName != null) {
             CompletableFuture.supplyAsync(() -> {
                 byte[] imageData = imageCache.get(imageName);

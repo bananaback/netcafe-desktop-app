@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="980.0" prefWidth="400.0" style="-fx-background-color: #131111;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox alignment="CENTER_LEFT" prefHeight="69.0" prefWidth="400.0" style="-fx-background-color: #00AA11;">
+         <children>
+            <Label text="PC5" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="30.0" />
+               </HBox.margin>
+            </Label>
+         </children>
+      </HBox>
+      <VBox prefHeight="408.0" prefWidth="400.0">
+         <children>
+            <HBox alignment="CENTER" prefHeight="206.0" prefWidth="400.0" spacing="30.0">
+               <children>
+                  <VBox alignment="CENTER_LEFT" prefHeight="147.0" prefWidth="161.0" style="-fx-background-color: #4C4A96; -fx-background-radius: 30;">
+                     <children>
+                        <Label text="Temperature" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="20.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label text="56*C" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="36.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="10.0" />
+                           </VBox.margin>
+                        </Label>
+                     </children>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </VBox>
+                  <VBox alignment="CENTER_LEFT" prefHeight="147.0" prefWidth="155.0" style="-fx-background-color: #4C4A96; -fx-background-radius: 30;">
+                     <children>
+                        <Label text="CPU usage" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="20.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label text="74%" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="36.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="10.0" />
+                           </VBox.margin>
+                        </Label>
+                     </children>
+                  </VBox>
+               </children>
+               <padding>
+                  <Insets bottom="20.0" top="30.0" />
+               </padding>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="204.0" prefWidth="400.0" spacing="30.0">
+               <children>
+                  <VBox alignment="CENTER_LEFT" prefHeight="147.0" prefWidth="160.0" style="-fx-background-color: #4C4A96; -fx-background-radius: 30;">
+                     <children>
+                        <Label text="Network usage" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="20.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label text="4.6GB" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="36.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="10.0" />
+                           </VBox.margin>
+                        </Label>
+                     </children>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </VBox>
+               </children>
+               <padding>
+                  <Insets bottom="20.0" top="20.0" />
+               </padding>
+            </HBox>
+         </children>
+      </VBox>
+      <VBox prefHeight="512.0" prefWidth="400.0" style="-fx-background-color: #070813;">
+         <children>
+            <HBox alignment="CENTER_LEFT" prefHeight="55.0" prefWidth="400.0">
+               <children>
+                  <Button mnemonicParsing="false" prefHeight="60.0" prefWidth="161.0" style="-fx-background-color: #4580C6;" text="COMMUNICATE" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Button>
+                  <Button mnemonicParsing="false" prefHeight="63.0" prefWidth="148.0" style="-fx-background-color: transparent;" text="ORDERS" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Button>
+               </children>
+            </HBox>
+            <VBox prefHeight="73.0" prefWidth="400.0">
+               <children>
+                  <Label prefHeight="77.0" prefWidth="245.0" style="-fx-background-color: #6D6E93; -fx-background-radius: 10;" text="Please help! The fan is not&#10;spinning." textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                     <VBox.margin>
+                        <Insets left="10.0" />
+                     </VBox.margin>
+                  </Label>
+               </children>
+               <VBox.margin>
+                  <Insets bottom="20.0" top="20.0" />
+               </VBox.margin>
+            </VBox>
+            <VBox alignment="TOP_RIGHT" prefHeight="73.0" prefWidth="400.0">
+               <children>
+                  <Label alignment="CENTER_RIGHT" prefHeight="73.0" prefWidth="182.0" style="-fx-background-color: #35386D; -fx-background-radius: 10;" text="Okay. I'm going to&#10;check now." textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                     <padding>
+                        <Insets left="10.0" right="10.0" />
+                     </padding>
+                     <VBox.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </VBox.margin>
+                  </Label>
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+      <HBox alignment="CENTER_RIGHT" prefHeight="80.0" prefWidth="400.0">
+         <children>
+            <HBox>
+               <HBox.margin>
+                  <Insets left="20.0" />
+               </HBox.margin>
+               <children>
+                  <Label prefHeight="58.0" prefWidth="299.0" text="Type your message..." textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <Button mnemonicParsing="false" prefHeight="64.0" prefWidth="72.0" style="-fx-background-color: red;" text="SEND" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Button>
+         </children>
+      </HBox>
+   </children>
+</VBox>
