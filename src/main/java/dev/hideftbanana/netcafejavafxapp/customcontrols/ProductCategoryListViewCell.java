@@ -21,18 +21,19 @@ public class ProductCategoryListViewCell extends ListCell<ProductCategory> {
     public void updateItem(ProductCategory productCategory, boolean empty) {
         super.updateItem(productCategory, empty);
         if (productCategory != null && !empty) {
-            ProductCategoryListItemData data = new ProductCategoryListItemData();
+            ProductCategoryListItemData data = new ProductCategoryListItemData(productCategory.getIsNew(),
+                    productCategory.getIsDeleted(), productCategory.getIsModified());
             data.setName(productCategory.getCategoryName());
             // Load image asynchronously
             loadImageAsync(productCategory.getImageLink(), data);
             setGraphic(data.getBox());
-
             // Apply selected styling if the cell is selected
             if (isSelected()) {
                 setStyle("-fx-background-color: #123456;");
             } else {
                 setStyle(""); // Clear selected styling
             }
+
         } else {
             setGraphic(null);
             setText(null);

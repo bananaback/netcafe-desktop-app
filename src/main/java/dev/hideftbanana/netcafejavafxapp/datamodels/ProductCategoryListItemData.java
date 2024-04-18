@@ -17,9 +17,19 @@ public class ProductCategoryListItemData {
     @FXML
     private HBox productCategoryViewBox;
 
-    public ProductCategoryListItemData() {
-        FXMLLoader fxmlLoader = new FXMLLoader(
-                getClass().getResource("/dev/hideftbanana/netcafejavafxapp/fxml/product_category_list_item.fxml"));
+    public ProductCategoryListItemData(boolean isNew, boolean isDeleted, boolean isModified) {
+        String fxmlPath;
+        if (isNew) {
+            fxmlPath = "/dev/hideftbanana/netcafejavafxapp/fxml/new_product_category_list_item.fxml";
+        } else if (isDeleted) {
+            fxmlPath = "/dev/hideftbanana/netcafejavafxapp/fxml/deleted_product_category_list_item.fxml";
+        } else if (isModified) {
+            fxmlPath = "/dev/hideftbanana/netcafejavafxapp/fxml/modified_product_category_list_item.fxml";
+        } else {
+            fxmlPath = "/dev/hideftbanana/netcafejavafxapp/fxml/default_product_category_list_item.fxml";
+        }
+
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlPath));
         fxmlLoader.setController(this);
         try {
             fxmlLoader.load();

@@ -30,6 +30,15 @@
                   <ListView fx:id="categoryListView" maxHeight="1.7976931348623157E308" minHeight="642.0" prefHeight="731.0" prefWidth="428.0" styleClass="custom-list-view" VBox.vgrow="ALWAYS" />
                </children>
             </VBox>
+            <HBox alignment="CENTER" prefHeight="69.0" prefWidth="448.0" spacing="30.0">
+               <children>
+                  <Button fx:id="addButton" mnemonicParsing="false" onAction="#addNewProductCategory" style="-fx-background-color: #7DDA58;" text="Add new category" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Button>
+               </children>
+            </HBox>
          </children>
       </VBox>
       <StackPane>
@@ -95,20 +104,33 @@
                         </VBox>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER" prefHeight="181.0" prefWidth="988.0" spacing="100.0">
+                  <VBox prefHeight="180.0" prefWidth="988.0">
                      <children>
-                        <Button fx:id="saveButton" mnemonicParsing="false" style="-fx-background-color: #324546;" text="SAVE" textFill="WHITE">
-                           <font>
-                              <Font name="System Bold" size="24.0" />
-                           </font>
-                        </Button>
-                        <Button fx:id="deleteButton" mnemonicParsing="false" style="-fx-background-color: red;" text="DELETE" textFill="WHITE">
-                           <font>
-                              <Font name="System Bold" size="24.0" />
-                           </font>
-                        </Button>
+                        <HBox alignment="CENTER" prefHeight="151.0" prefWidth="988.0">
+                           <children>
+                              <Label fx:id="validationLabel" text="" textFill="WHITE">
+                                 <font>
+                                    <Font name="System Bold" size="24.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="181.0" prefWidth="988.0" spacing="100.0">
+                           <children>
+                              <Button fx:id="saveButton" mnemonicParsing="false" onAction="#saveCurrentProductCategory" style="-fx-background-color: #324546;" text="SAVE" textFill="WHITE">
+                                 <font>
+                                    <Font name="System Bold" size="24.0" />
+                                 </font>
+                              </Button>
+                              <Button fx:id="deleteButton" mnemonicParsing="false" style="-fx-background-color: red;" text="DELETE" textFill="WHITE">
+                                 <font>
+                                    <Font name="System Bold" size="24.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                        </HBox>
                      </children>
-                  </HBox>
+                  </VBox>
                </children>
             </VBox>
          </children>

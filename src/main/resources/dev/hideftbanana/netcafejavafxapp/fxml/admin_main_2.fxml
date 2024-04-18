@@ -57,8 +57,14 @@
       </HBox>
    </bottom>
    <center>
-      <HBox fx:id="centerHBox" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="750.0" prefWidth="1440.0" BorderPane.alignment="CENTER">
+      <HBox fx:id="centerHBox" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="750.0" prefWidth="1240.0" BorderPane.alignment="CENTER">
          
       </HBox>
    </center>
+   <right>
+      <HBox fx:id="rightHBox" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="750.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         
+      </HBox>
+   </right>
+
 </BorderPane>
