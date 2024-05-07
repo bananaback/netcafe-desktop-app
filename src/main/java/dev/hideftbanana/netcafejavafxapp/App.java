@@ -6,6 +6,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 import dev.hideftbanana.netcafejavafxapp.datamodels.ProductCategoryDataModel;
+import dev.hideftbanana.netcafejavafxapp.datamodels.ProductDataModel;
 import dev.hideftbanana.netcafejavafxapp.services.cacheservices.ImageCache;
 
 /**
@@ -28,7 +29,8 @@ public class App extends Application {
         // stage.initStyle(StageStyle.UNDECORATED);
         ImageCache imageCache = new ImageCache(100);
         ProductCategoryDataModel productCategoryDataModel = new ProductCategoryDataModel();
-        SceneManager sceneManager = new SceneManager(stage, imageCache, productCategoryDataModel);
+        ProductDataModel productDataModel = new ProductDataModel();
+        SceneManager sceneManager = new SceneManager(stage, imageCache, productCategoryDataModel, productDataModel);
         sceneManager.switchingScene("/dev/hideftbanana/netcafejavafxapp/fxml/admin_login_page.fxml");
         sceneManager.showRootStage();
 

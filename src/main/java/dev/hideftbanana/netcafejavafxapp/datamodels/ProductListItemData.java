@@ -9,18 +9,18 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
-public class ProductCategoryListItemData {
+public class ProductListItemData {
     @FXML
-    private Label productCategoryNameLabel;
+    private Label productNameLabel;
     @FXML
-    private ImageView productCategoryImageView;
+    private ImageView productImageView;
     @FXML
-    private HBox productCategoryViewBox;
+    private HBox productViewBox;
 
-    public ProductCategoryListItemData() {
+    public ProductListItemData() {
         String fxmlPath;
 
-        fxmlPath = "/dev/hideftbanana/netcafejavafxapp/fxml/default_product_category_list_item.fxml";
+        fxmlPath = "/dev/hideftbanana/netcafejavafxapp/fxml/default_product_list_item.fxml";
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlPath));
         fxmlLoader.setController(this);
@@ -32,15 +32,15 @@ public class ProductCategoryListItemData {
     }
 
     public void setName(String name) {
-        productCategoryNameLabel.setText(name);
+        productNameLabel.setText(name);
     }
 
     public void setImage(Image image) {
-        productCategoryImageView.setImage(image);
+        productImageView.setImage(image);
     }
 
     public HBox getBox() {
-        return productCategoryViewBox;
+        return productViewBox;
     }
 
 }

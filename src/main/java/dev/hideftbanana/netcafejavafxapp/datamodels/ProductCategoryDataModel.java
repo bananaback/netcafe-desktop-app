@@ -50,7 +50,6 @@ public class ProductCategoryDataModel {
                                 productCategoryResponse.getId(),
                                 productCategoryResponse.getCategoryName(),
                                 productCategoryResponse.getImageLink());
-                        productCategory.setValidationText("");
                         newProductCategoryList.add(productCategory);
                     }
                     Platform.runLater(() -> {

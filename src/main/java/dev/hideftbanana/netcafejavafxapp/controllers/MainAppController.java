@@ -16,6 +16,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import dev.hideftbanana.netcafejavafxapp.datamodels.ProductCategoryDataModel;
+import dev.hideftbanana.netcafejavafxapp.datamodels.ProductDataModel;
 import dev.hideftbanana.netcafejavafxapp.services.cacheservices.ImageCache;
 
 public class MainAppController extends BaseController implements Initializable {
@@ -45,6 +46,7 @@ public class MainAppController extends BaseController implements Initializable {
 
     private ImageCache imageCache;
     private ProductCategoryDataModel productCategoryDataModel;
+    private ProductDataModel productDataModel;
 
     public void setImageCache(ImageCache imageCache) {
         this.imageCache = imageCache;
@@ -162,6 +164,10 @@ public class MainAppController extends BaseController implements Initializable {
                 CategoryController categoryController = (CategoryController) controller;
                 categoryController.setImageCache(imageCache);
                 categoryController.setDataModel(productCategoryDataModel);
+            } else if (controller instanceof ProductController) {
+                ProductController productController = (ProductController) controller;
+                productController.setImageCache(imageCache);
+                productController.setDataModel(productDataModel);
             }
 
             // Add newCenter to centerHBox
@@ -175,6 +181,10 @@ public class MainAppController extends BaseController implements Initializable {
 
     public void setProductCategoryDataModel(ProductCategoryDataModel productCategoryDataModel) {
         this.productCategoryDataModel = productCategoryDataModel;
+    }
+
+    public void setProductDataModel(ProductDataModel productDataModel) {
+        this.productDataModel = productDataModel;
     }
 
 }
