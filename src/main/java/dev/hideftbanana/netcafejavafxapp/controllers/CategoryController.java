@@ -51,7 +51,6 @@ public class CategoryController extends BaseController implements Initializable 
 
     private ProductCategoryDataModel productCategoryDataModel;
     private ImageCache imageCache;
-    private StringProperty imageNameProperty = new SimpleStringProperty();
 
     @FXML
     private ListView<ProductCategory> categoryListView;
@@ -258,46 +257,6 @@ public class CategoryController extends BaseController implements Initializable 
         }
     }
 
-    @FXML
-    private Button addButton;
-    @FXML
-    private Label validationLabel;
-
-    @FXML
-    private void addNewProductCategory() {
-        ProductCategory productCategory = new ProductCategory();
-        productCategory.setCategoryName("Default category name.");
-        productCategory.setImageLink("86a1a96d-90ed-4283-97c2-e68fdfa576a1.jpg");
-        productCategory.setValidationText("");
-        productCategoryDataModel.addCategory(productCategory);
-
-        categoryListView.setItems(productCategoryDataModel.getProductCategoryList());
-        categoryListView.refresh();
-    }
-
-    @FXML
-    private void saveCurrentProductCategory() {
-        // Call the saveData() method of the ProductCategoryDataModel
-        CompletableFuture<Void> saveFuture = productCategoryDataModel.saveData();
-
-        // Handle the completion of the save operation
-        saveFuture.thenAccept(result -> {
-            // Update the UI on the JavaFX Application Thread
-            Platform.runLater(() -> {
-                categoryListView.setItems(null);
-                categoryListView.refresh();
-                categoryListView.setItems(productCategoryDataModel.getProductCategoryList());
-                categoryListView.refresh();
-                System.out.println("Save operation completed successfully");
-            });
-        }).exceptionally(ex -> {
-            // Handle exceptions that occurred during the save operation
-            // For example, display an error message or log the exception
-            ex.printStackTrace();
-            return null;
-        });
-    }
-
     public void setImageCache(ImageCache imageCache) {
         this.imageCache = imageCache;
     }
@@ -423,10 +382,6 @@ public class CategoryController extends BaseController implements Initializable 
             }
         });
         // --------------------------------------------------
-
-        imageNameProperty.addListener((obs, oldV, newV) -> {
-            updateSelectedImage();
-        });
 
     }
 
