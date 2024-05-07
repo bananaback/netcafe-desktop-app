@@ -12,8 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1440.0" style="-fx-background-color: #131111; -fx-border-color: black; -fx-border-width: 4 0 4 0px;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1440.0" style="-fx-background-color: #131111; -fx-border-color: black; -fx-border-width: 4 0 4 0px;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.hideftbanana.netcafejavafxapp.controllers.ProductController">
    <children>
       <VBox prefHeight="742.0" prefWidth="521.0">
          <children>
@@ -28,7 +27,7 @@
             </VBox>
             <VBox prefHeight="602.0" prefWidth="510.0">
                <children>
-                  <ListView fx:id="productListView" prefHeight="608.0" prefWidth="510.0" />
+                  <ListView fx:id="productListView" prefHeight="608.0" prefWidth="510.0" styleClass="custom-list-view" />
                </children>
             </VBox>
             <HBox alignment="CENTER" prefHeight="86.0" prefWidth="510.0">
@@ -57,13 +56,13 @@
                   </HBox>
                   <StackPane prefHeight="656.0" prefWidth="930.0">
                      <children>
-                        <VBox fx:id="updateVBoc" prefHeight="696.0" prefWidth="930.0" visible="false">
+                        <VBox fx:id="updateVBox" prefHeight="696.0" prefWidth="930.0"  visible="false">
                            <children>
-                              <HBox prefHeight="506.0" prefWidth="930.0">
+                              <HBox prefHeight="614.0" prefWidth="930.0">
                                  <children>
                                     <HBox alignment="CENTER" prefHeight="268.0" prefWidth="334.0">
                                        <children>
-                                          <ImageView fitHeight="180.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true" />
+                                          <ImageView fx:id="currentProductImageViewUpdate" fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
                                        </children>
                                     </HBox>
                                     <VBox alignment="CENTER_LEFT" prefHeight="268.0" prefWidth="604.0">
@@ -114,6 +113,12 @@
                                                 <Font size="24.0" />
                                              </font>
                                           </TextField>
+                                          <Label text="Category" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold" size="24.0" />
+                                             </font>
+                                          </Label>
+                                          <ComboBox fx:id="categoryComboBox" prefHeight="53.0" prefWidth="545.0" />
                                        </children>
                                        <HBox.margin>
                                           <Insets right="40.0" />
@@ -123,12 +128,12 @@
                               </HBox>
                               <HBox alignment="CENTER" prefHeight="203.0" prefWidth="930.0" spacing="60.0">
                                  <children>
-                                    <Button fx:id="saveUpdateButton" mnemonicParsing="false" style="-fx-background-color: #66B76A;" text="SAVE" textFill="WHITE">
+                                    <Button fx:id="saveUpdateButton" onAction="#saveProduct" mnemonicParsing="false" style="-fx-background-color: #66B76A;" text="SAVE" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="24.0" />
                                        </font>
                                     </Button>
-                                    <Button fx:id="cancelUpdateButton" mnemonicParsing="false" style="-fx-background-color: red;" text="CANCEL" textFill="WHITE">
+                                    <Button fx:id="cancelUpdateButton" onAction="#switchToOverview" mnemonicParsing="false" style="-fx-background-color: red;" text="CANCEL" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="24.0" />
                                        </font>
@@ -137,13 +142,13 @@
                               </HBox>
                            </children>
                         </VBox>
-                        <VBox fx:id="overviewVBox" prefHeight="200.0" prefWidth="100.0">
+                        <VBox fx:id="overviewVBox" prefHeight="200.0" prefWidth="100.0" visible="true">
                            <children>
-                              <HBox prefHeight="416.0" prefWidth="930.0">
+                              <HBox prefHeight="520.0" prefWidth="930.0">
                                  <children>
                                     <HBox alignment="CENTER" prefHeight="416.0" prefWidth="380.0">
                                        <children>
-                                          <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                                          <ImageView fx:id="productImagePreview" fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
                                        </children>
                                     </HBox>
                                     <VBox alignment="CENTER_LEFT" prefHeight="416.0" prefWidth="595.0" spacing="40.0">
@@ -168,14 +173,18 @@
                                                 <Font name="System Bold" size="24.0" />
                                              </font>
                                           </Label>
+                                          <Label fx:id="productCategoryLabel" text="Product category" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold" size="24.0" />
+                                             </font>
+                                          </Label>
                                        </children>
                                     </VBox>
                                  </children>
                               </HBox>
-                              <HBox prefHeight="100.0" prefWidth="200.0" />
                               <HBox alignment="CENTER" prefHeight="140.0" prefWidth="930.0" spacing="80.0">
                                  <children>
-                                    <Button fx:id="updateProductButton" mnemonicParsing="false" style="-fx-background-color: #FEC928;" text="UPDATE" textFill="WHITE">
+                                    <Button fx:id="updateProductButton" mnemonicParsing="false" onAction="#switchToUpdate" style="-fx-background-color: #FEC928;" text="UPDATE" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="24.0" />
                                        </font>

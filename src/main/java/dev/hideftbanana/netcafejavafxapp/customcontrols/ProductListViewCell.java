@@ -2,29 +2,29 @@ package dev.hideftbanana.netcafejavafxapp.customcontrols;
 
 import java.util.concurrent.CompletableFuture;
 
-import dev.hideftbanana.netcafejavafxapp.datamodels.ProductCategoryListItemData;
-import dev.hideftbanana.netcafejavafxapp.models.ProductCategory;
+import dev.hideftbanana.netcafejavafxapp.datamodels.ProductListItemData;
+import dev.hideftbanana.netcafejavafxapp.models.Product;
 import dev.hideftbanana.netcafejavafxapp.services.cacheservices.ImageCache;
 import javafx.application.Platform;
 import javafx.scene.control.ListCell;
 import java.io.ByteArrayInputStream;
 import javafx.scene.image.Image;
 
-public class ProductCategoryListViewCell extends ListCell<ProductCategory> {
+public class ProductListViewCell extends ListCell<Product> {
     private ImageCache imageCache;
 
-    public ProductCategoryListViewCell(ImageCache imageCache) {
+    public ProductListViewCell(ImageCache imageCache) {
         this.imageCache = imageCache;
     }
 
     @Override
-    public void updateItem(ProductCategory productCategory, boolean empty) {
-        super.updateItem(productCategory, empty);
-        if (productCategory != null && !empty) {
-            ProductCategoryListItemData data = new ProductCategoryListItemData();
-            data.setName(productCategory.getCategoryName());
+    public void updateItem(Product product, boolean empty) {
+        super.updateItem(product, empty);
+        if (product != null && !empty) {
+            ProductListItemData data = new ProductListItemData();
+            data.setName(product.getName());
             // Load image asynchronously
-            loadImageAsync(productCategory.getImageLink(), data);
+            loadImageAsync(product.getImageLink(), data);
             setGraphic(data.getBox());
             // Apply selected styling if the cell is selected
             if (isSelected()) {
@@ -40,7 +40,7 @@ public class ProductCategoryListViewCell extends ListCell<ProductCategory> {
         }
     }
 
-    private void loadImageAsync(String imageName, ProductCategoryListItemData data) {
+    private void loadImageAsync(String imageName, ProductListItemData data) {
         CompletableFuture.supplyAsync(() -> {
             byte[] imageData = imageCache.get(imageName); // Blocking call
             return new Image(new ByteArrayInputStream(imageData));
