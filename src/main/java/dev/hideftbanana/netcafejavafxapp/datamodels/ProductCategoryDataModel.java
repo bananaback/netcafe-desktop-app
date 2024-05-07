@@ -1,13 +1,7 @@
 package dev.hideftbanana.netcafejavafxapp.datamodels;
 
-import java.net.http.HttpRequest;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpResponse;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
-import dev.hideftbanana.netcafejavafxapp.TokenManager;
 import dev.hideftbanana.netcafejavafxapp.models.ProductCategory;
 import dev.hideftbanana.netcafejavafxapp.models.request.CreateProductCategoryRequest;
 import dev.hideftbanana.netcafejavafxapp.models.responses.ProductCategoryResponse;
