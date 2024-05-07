@@ -38,6 +38,9 @@ public class MainAppController extends BaseController implements Initializable {
     private Button resourcesButton;
     @FXML
     private Button categoriesButton;
+    @FXML
+    private Button productsButton;
+
     private FadeTransition fadeTransition;
 
     private ImageCache imageCache;
@@ -60,6 +63,8 @@ public class MainAppController extends BaseController implements Initializable {
         monitorButton.setOnAction(event -> handleButtonSelection(monitorButton));
         resourcesButton.setOnAction(event -> handleButtonSelection(resourcesButton));
         categoriesButton.setOnAction(event -> handleButtonSelection(categoriesButton));
+        productsButton.setOnAction(event -> handleButtonSelection(productsButton));
+
     }
 
     private void fadeElementsIn() {
@@ -86,6 +91,7 @@ public class MainAppController extends BaseController implements Initializable {
         monitorButton.setStyle("-fx-background-color: #1C1A1A;");
         resourcesButton.setStyle("-fx-background-color: #1C1A1A;");
         categoriesButton.setStyle("-fx-background-color: #1C1A1A;");
+        productsButton.setStyle("-fx-background-color: #1C1A1A;");
 
         // Select the clicked button
         selectedButton.setStyle("-fx-background-color: #197B1D;");
@@ -99,6 +105,9 @@ public class MainAppController extends BaseController implements Initializable {
             rightHBox.getChildren().clear();
         } else if (selectedButton == categoriesButton) {
             replaceCenterWithFXML("/dev/hideftbanana/netcafejavafxapp/fxml/category_management.fxml");
+            rightHBox.getChildren().clear();
+        } else if (selectedButton == productsButton) {
+            replaceCenterWithFXML("/dev/hideftbanana/netcafejavafxapp/fxml/product_management.fxml");
             rightHBox.getChildren().clear();
         } else if (selectedButton == monitorButton) {
             replaceCenterWithFXML("/dev/hideftbanana/netcafejavafxapp/fxml/monitor_center.fxml");

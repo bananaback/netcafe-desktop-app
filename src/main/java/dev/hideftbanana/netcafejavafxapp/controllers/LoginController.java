@@ -132,22 +132,6 @@ public class LoginController extends BaseController implements Initializable {
         delay.play();
     }
 
-    private void mockLogin() {
-        sceneManager.setStageSize(AppConfig.MAIN_STAGE_WIDTH, AppConfig.MAIN_STAGE_HEIGHT);
-        sceneManager.setMinSize(AppConfig.MAIN_STAGE_MIN_WIDTH,
-                AppConfig.MAIN_STAGE_MIN_HEIGHT);
-        sceneManager
-                .switchingScene(
-                        "/dev/hideftbanana/netcafejavafxapp/fxml/net_cafe_splash_screen.fxml");
-        return;
-    }
-
-    private String parseToken(String responseBody, String tokenName) {
-        int startIndex = responseBody.indexOf(tokenName) + tokenName.length() + 3;
-        int endIndex = responseBody.indexOf('"', startIndex);
-        return responseBody.substring(startIndex, endIndex);
-    }
-
     // Get URI object from the URL string
     private URI getUri() {
         try {
