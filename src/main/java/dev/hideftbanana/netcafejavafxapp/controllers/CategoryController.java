@@ -17,17 +17,17 @@ import dev.hideftbanana.netcafejavafxapp.customcontrols.FxUtilTest;
 import dev.hideftbanana.netcafejavafxapp.customcontrols.ProductCategoryListViewCell;
 import dev.hideftbanana.netcafejavafxapp.datamodels.ProductCategoryDataModel;
 import dev.hideftbanana.netcafejavafxapp.models.ProductCategory;
+import dev.hideftbanana.netcafejavafxapp.models.request.CreateProductCategoryRequest;
 import dev.hideftbanana.netcafejavafxapp.models.responses.ImagesResponse;
 import dev.hideftbanana.netcafejavafxapp.services.cacheservices.ImageCache;
 import javafx.application.Platform;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -39,6 +39,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -50,25 +51,20 @@ public class CategoryController extends BaseController implements Initializable 
 
     private ProductCategoryDataModel productCategoryDataModel;
     private ImageCache imageCache;
-    private StringProperty imageNameProperty = new SimpleStringProperty();
 
     @FXML
     private ListView<ProductCategory> categoryListView;
-
-    // Define the listener as a separate variable
-    private final ChangeListener<String> imageLinkListener = (obsImage, oldImage, newImage) -> {
-
-        categoryListView.refresh(); // Refresh the ListView to reflect the changes
-        System.out.println(productCategoryDataModel.getCurrentProductCategory().getImageLink());
-
-    };
+    @FXML
+    private ImageView categoryImagePreview;
+    @FXML
+    private Label categoryNameLabelPreview;
+    @FXML
+    private ComboBox<String> categoryImageComboBoxUpdate;
+    @FXML
+    private TextField categoryNameTextFieldUpdate;
 
     @FXML
-    private TextField categoryNameTextField;
-    @FXML
-    private ImageView currentProductCategoryImageView;
-    @FXML
-    private ComboBox<String> categoryImageComboBox;
+    private ImageView currentProductCategoryImageViewUpdate;
 
     @FXML
     private Button addButton;
@@ -76,38 +72,189 @@ public class CategoryController extends BaseController implements Initializable 
     private Label validationLabel;
 
     @FXML
-    private void addNewProductCategory() {
-        ProductCategory productCategory = new ProductCategory();
-        productCategory.setCategoryName("Default category name.");
-        productCategory.setImageLink("86a1a96d-90ed-4283-97c2-e68fdfa576a1.jpg");
-        productCategory.setValidationText("");
-        productCategoryDataModel.addCategory(productCategory);
+    private VBox overviewVBox;
+    @FXML
+    private VBox updateVBox;
+    @FXML
+    private Button updateCategoryButton;
+    @FXML
+    private Button deleteCategoryButton;
+    @FXML
+    private Label viewLabel;
+    @FXML
+    private Button cancelUpdateButton;
+    @FXML
+    private Button saveUpdateButton;
 
-        categoryListView.setItems(productCategoryDataModel.getProductCategoryList());
-        categoryListView.refresh();
+    @FXML
+    private void switchToOverview() {
+        overviewVBox.setVisible(true);
+        updateVBox.setVisible(false);
     }
 
     @FXML
-    private void saveCurrentProductCategory() {
-        // Call the saveData() method of the ProductCategoryDataModel
-        CompletableFuture<Void> saveFuture = productCategoryDataModel.saveData();
+    private void switchToUpdateView() {
+        overviewVBox.setVisible(false);
+        updateVBox.setVisible(true);
+        viewLabel.setText("Update category");
+        categoryImageComboBoxUpdate.valueProperty()
+                .setValue(productCategoryDataModel.getCurrentProductCategory().getImageLink());
+        categoryNameTextFieldUpdate.setText(productCategoryDataModel.getCurrentProductCategory().getCategoryName());
+    }
 
-        // Handle the completion of the save operation
-        saveFuture.thenAccept(result -> {
-            // Update the UI on the JavaFX Application Thread
-            Platform.runLater(() -> {
-                categoryListView.setItems(null);
-                categoryListView.refresh();
-                categoryListView.setItems(productCategoryDataModel.getProductCategoryList());
-                categoryListView.refresh();
-                System.out.println("Save operation completed successfully");
+    @FXML
+    private void deleteCategory() {
+        ProductCategory selectedCategory = productCategoryDataModel.getCurrentProductCategory();
+        if (selectedCategory != null) {
+            Task<Void> deleteCategoryTask = new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    try {
+                        // Call the addCategory method of the data model
+                        productCategoryDataModel.deleteCategory(selectedCategory.getId());
+                    } catch (Exception e) {
+                        // If an exception occurs, throw it to be handled by the exception handler
+                        throw e;
+                    }
+                    return null;
+                }
+            };
+
+            // Set up an exception handler for the task
+            deleteCategoryTask.setOnFailed(event -> {
+                Throwable exception = deleteCategoryTask.getException();
+                // Handle the exception appropriately, such as displaying an error message to
+                // the user
+                System.err.println("Failed to add product category: " + exception.getMessage());
+                // Handle the exception by showing an alert to the user
+                Platform.runLater(() -> {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText("Failed to delete product category");
+                    alert.setContentText(exception.getMessage());
+                    alert.showAndWait();
+                });
             });
-        }).exceptionally(ex -> {
-            // Handle exceptions that occurred during the save operation
-            // For example, display an error message or log the exception
-            ex.printStackTrace();
-            return null;
+
+            // Set up a completion handler for the task
+            deleteCategoryTask.setOnSucceeded(event -> {
+                Platform.runLater(() -> {
+                    categoryListView.setItems(productCategoryDataModel.getProductCategoryList());
+                    categoryListView.refresh();
+                    categoryImagePreview.setImage(null);
+                    categoryNameLabelPreview.setText("");
+                });
+            });
+
+            new Thread(deleteCategoryTask).start();
+        } else {
+            // No category is selected, handle this case as needed
+            // For example, show a message to the user indicating that they need to select a
+            // category to delete
+        }
+
+    }
+
+    @FXML
+    private void addNewProductCategory() {
+        // Create a new request object with the data from the UI
+        CreateProductCategoryRequest request = new CreateProductCategoryRequest();
+        request.setCategoryName("Default category name.");
+        request.setImageLink("86a1a96d-90ed-4283-97c2-e68fdfa576a1.jpg");
+
+        // Create a task to execute the addCategory method asynchronously
+        Task<Void> addCategoryTask = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                try {
+                    // Call the addCategory method of the data model
+                    productCategoryDataModel.addCategory(request);
+                } catch (Exception e) {
+                    // If an exception occurs, show an error message
+                    Platform.runLater(() -> {
+                        // You can show an error message to the user here
+                        System.err.println("Failed to add product category: " + e.getMessage());
+                    });
+                }
+                return null;
+            }
+        };
+
+        // Start the task in a background thread
+        new Thread(addCategoryTask).start();
+
+        Platform.runLater(() -> {
+            categoryListView.setItems(productCategoryDataModel.getProductCategoryList());
+            categoryListView.refresh();
         });
+
+    }
+
+    @FXML
+    private void updateProductCategory() {
+        ProductCategory selectedCategory = productCategoryDataModel.getCurrentProductCategory();
+        if (selectedCategory != null && FxUtilTest.getComboBoxValue(categoryImageComboBoxUpdate) != null
+                && categoryNameTextFieldUpdate.getText() != null) {
+
+            // Get updated data from the UI
+            String updatedImageLink = FxUtilTest.getComboBoxValue(categoryImageComboBoxUpdate);
+            String updatedCategoryName = categoryNameTextFieldUpdate.getText();
+
+            // Create a request object with the updated data
+            CreateProductCategoryRequest updateRequest = new CreateProductCategoryRequest();
+            updateRequest.setCategoryName(updatedCategoryName);
+            updateRequest.setImageLink(updatedImageLink);
+
+            // Create a task to execute the updateCategory method asynchronously
+            Task<Void> updateCategoryTask = new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    try {
+                        // Call the updateCategory method of the data model
+                        productCategoryDataModel.updateCategory(selectedCategory.getId(), updateRequest);
+                    } catch (Exception e) {
+                        // If an exception occurs, throw it to be handled by the exception handler
+                        throw e;
+                    }
+                    return null;
+                }
+            };
+
+            // Set up an exception handler for the task
+            updateCategoryTask.setOnFailed(event -> {
+                Throwable exception = updateCategoryTask.getException();
+                // Handle the exception appropriately, such as displaying an error message to
+                // the user
+                System.err.println("Failed to update product category: " + exception.getMessage());
+                // Handle the exception by showing an alert to the user
+                Platform.runLater(() -> {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText("Failed to update product category");
+                    alert.setContentText(exception.getMessage());
+                    alert.showAndWait();
+                });
+            });
+
+            // Set up a completion handler for the task
+            updateCategoryTask.setOnSucceeded(event -> {
+                Platform.runLater(() -> {
+                    categoryListView.setItems(productCategoryDataModel.getProductCategoryList());
+                    categoryListView.refresh();
+                    overviewVBox.setVisible(true);
+                    updateVBox.setVisible(false);
+                    categoryImagePreview.setImage(null);
+                    categoryNameLabelPreview.setText("");
+                });
+            });
+
+            new Thread(updateCategoryTask).start();
+        } else {
+            // No category is selected or updated data is missing, handle this case as
+            // needed
+            // For example, show a message to the user indicating that they need to select a
+            // category and provide updated data to update
+        }
     }
 
     public void setImageCache(ImageCache imageCache) {
@@ -125,63 +272,6 @@ public class CategoryController extends BaseController implements Initializable 
         this.productCategoryDataModel = productCategoryDataModel;
         this.productCategoryDataModel.loadData();
 
-        // ------------------------------------------------------
-        CompletableFuture<List<String>> futureImageNames = loadImageNamesAsync();
-        futureImageNames.thenAcceptAsync(imageNames -> {
-            Platform.runLater(() -> { // Ensure UI-related code runs on the JavaFX Application Thread
-                System.out.println("Received image names:");
-                for (String imageName : imageNames) {
-                    System.out.println(imageName);
-                }
-                ObservableList<String> observableList = FXCollections.observableArrayList(imageNames);
-                categoryImageComboBox.setItems(observableList);
-
-                categoryImageComboBox.setCellFactory(param -> new ListCell<String>() {
-                    @Override
-                    protected void updateItem(String item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (!empty) {
-                            setGraphic(buildLayout(item));
-                        } else {
-                            setGraphic(null);
-                        }
-                    }
-                });
-
-                FxUtilTest.autoCompleteComboBoxPlus(categoryImageComboBox, (typedText, itemToCompare) -> itemToCompare
-                        .toLowerCase().contains(typedText.toLowerCase()));
-
-                categoryImageComboBox.setConverter(new StringConverter<String>() {
-
-                    @Override
-                    public String toString(String object) {
-                        return object != null ? object : "";
-                    }
-
-                    @Override
-                    public String fromString(String string) {
-                        return categoryImageComboBox.getItems().stream().filter(object -> object.equals(string))
-                                .findFirst()
-                                .orElse(null);
-                    }
-
-                });
-
-                ComboBoxListViewSkin<String> comboBoxListViewSkin = new ComboBoxListViewSkin<String>(
-                        categoryImageComboBox);
-                comboBoxListViewSkin.getPopupContent().addEventFilter(KeyEvent.ANY, (KeyEvent event) -> {
-                    if (event.getCode() == KeyCode.SPACE) {
-                        event.consume();
-                    }
-                });
-                categoryImageComboBox.setSkin(comboBoxListViewSkin);
-
-                categoryImageComboBox.setVisibleRowCount(5);
-
-            });
-        });
-        // --------------------------------------------------
-
         this.categoryListView.setItems(productCategoryDataModel.getProductCategoryList());
 
         this.categoryListView.setCellFactory(
@@ -197,58 +287,101 @@ public class CategoryController extends BaseController implements Initializable 
 
         productCategoryDataModel.currentProductCategoryProperty().addListener((obs, oldValue, newValue) -> {
             if (oldValue != null) {
-                oldValue.imageLinkProperty().removeListener(imageLinkListener);
-                oldValue.categoryNameProperty().removeListener(imageLinkListener);
-                oldValue.valiationTextProperty().removeListener(imageLinkListener);
 
             }
             if (newValue == null) {
-                categoryImageComboBox.setValue(null);
-                categoryNameTextField.textProperty().setValue(null);
+                categoryImageComboBoxUpdate.setValue(null);
+                categoryNameTextFieldUpdate.textProperty().setValue(null);
                 validationLabel.textProperty().setValue(null);
             } else {
-                // Bind the valueProperty of the ComboBox bidirectionally to the
-                // imageLinkProperty of the selected ProductCategory
-                categoryImageComboBox.valueProperty().setValue(newValue.getImageLink());
-                categoryNameTextField.textProperty().setValue(newValue.getCategoryName());
-                imageNameProperty.setValue(newValue.getImageLink());
-                // Add listener to update the ListView when the imageLinkProperty changes
-                newValue.imageLinkProperty().addListener(imageLinkListener);
-                newValue.categoryNameProperty().addListener(imageLinkListener);
-                newValue.valiationTextProperty().addListener(imageLinkListener);
+                updateSelectedImage();
+                categoryNameLabelPreview
+                        .setText(productCategoryDataModel.getCurrentProductCategory().getCategoryName());
+
+                overviewVBox.setVisible(true);
+                updateVBox.setVisible(false);
             }
-            // System.out.println(productCategoryDataModel.getCurrentProductCategory().getImageLink());
 
         });
 
-        categoryImageComboBox.valueProperty().addListener((obs, oldImageName, newImageName) -> {
-            if (newImageName != null) {
-                ProductCategory currentCategory = productCategoryDataModel.currentProductCategoryProperty().get();
-                if (!newImageName.equals(currentCategory.getImageLink())) {
-                    currentCategory.imageLinkProperty().setValue(newImageName);
-                    if (!currentCategory.getIsNew()) {
-                        currentCategory.isModifiedProperty().setValue(true);
-                    }
-                    imageNameProperty.setValue(newImageName);
+        // ------------------------------------------------------
+        CompletableFuture<List<String>> futureImageNames = loadImageNamesAsync();
+        futureImageNames.thenAcceptAsync(imageNames -> {
+            Platform.runLater(() -> { // Ensure UI-related code runs on the JavaFX Application Thread
+                System.out.println("Received image names:");
+                for (String imageName : imageNames) {
+                    System.out.println(imageName);
                 }
-            }
-        });
+                ObservableList<String> observableList = FXCollections.observableArrayList(imageNames);
+                categoryImageComboBoxUpdate.setItems(observableList);
 
-        categoryNameTextField.textProperty().addListener((obs, oldCategoryName, newCategoryName) -> {
-            if (newCategoryName != null) {
-                ProductCategory currentCategory = productCategoryDataModel.currentProductCategoryProperty().get();
-                if (!newCategoryName.equals(currentCategory.getCategoryName())) {
-                    currentCategory.categoryNameProperty().setValue(newCategoryName);
-                    if (!currentCategory.getIsNew()) {
-                        currentCategory.isModifiedProperty().setValue(true);
+                categoryImageComboBoxUpdate.setCellFactory(param -> new ListCell<String>() {
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (!empty) {
+                            setGraphic(buildLayout(item));
+                        } else {
+                            setGraphic(null);
+                        }
                     }
-                }
-            }
+                });
+
+                FxUtilTest.autoCompleteComboBoxPlus(categoryImageComboBoxUpdate,
+                        (typedText, itemToCompare) -> itemToCompare
+                                .toLowerCase().contains(typedText.toLowerCase()));
+
+                categoryImageComboBoxUpdate.setConverter(new StringConverter<String>() {
+
+                    @Override
+                    public String toString(String object) {
+                        return object != null ? object : "";
+                    }
+
+                    @Override
+                    public String fromString(String string) {
+                        return categoryImageComboBoxUpdate.getItems().stream().filter(object -> object.equals(string))
+                                .findFirst()
+                                .orElse(null);
+                    }
+
+                });
+
+                ComboBoxListViewSkin<String> comboBoxListViewSkin = new ComboBoxListViewSkin<String>(
+                        categoryImageComboBoxUpdate);
+                comboBoxListViewSkin.getPopupContent().addEventFilter(KeyEvent.ANY, (KeyEvent event) -> {
+                    if (event.getCode() == KeyCode.SPACE) {
+                        event.consume();
+                    }
+                });
+                categoryImageComboBoxUpdate.setSkin(comboBoxListViewSkin);
+
+                categoryImageComboBoxUpdate.setVisibleRowCount(5);
+
+            });
         });
 
-        imageNameProperty.addListener((obs, oldV, newV) -> {
-            updateSelectedImage();
+        categoryImageComboBoxUpdate.valueProperty().addListener((obs, oldVal, newVal) -> {
+            // Your event handling code here
+            System.out.println("Selected item changed to: " + newVal);
+            // You can perform any actions you need based on the new selected item
+            String imageName = newVal;
+            if (imageName != null) {
+                CompletableFuture.supplyAsync(() -> {
+                    byte[] imageData = imageCache.get(imageName);
+                    return new Image(new ByteArrayInputStream(imageData));
+                }).thenAcceptAsync(image -> {
+                    Platform.runLater(() -> {
+                        if (image != null) {
+                            currentProductCategoryImageViewUpdate.setImage(image);
+                        } else {
+                            // Set default image or handle error
+                        }
+                    });
+                });
+            }
         });
+        // --------------------------------------------------
 
     }
 
@@ -323,7 +456,7 @@ public class CategoryController extends BaseController implements Initializable 
     }
 
     private void updateSelectedImage() {
-        String imageName = imageNameProperty.get();
+        String imageName = productCategoryDataModel.getCurrentProductCategory().getImageLink();
         if (imageName != null) {
             CompletableFuture.supplyAsync(() -> {
                 byte[] imageData = imageCache.get(imageName);
@@ -331,7 +464,8 @@ public class CategoryController extends BaseController implements Initializable 
             }).thenAcceptAsync(image -> {
                 Platform.runLater(() -> {
                     if (image != null) {
-                        currentProductCategoryImageView.setImage(image);
+                        // currentProductCategoryImageView.setImage(image);
+                        categoryImagePreview.setImage(image);
                     } else {
                         // Set default image or handle error
                     }

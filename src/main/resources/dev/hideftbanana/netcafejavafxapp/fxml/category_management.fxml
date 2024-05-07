@@ -47,90 +47,126 @@
                <children>
                   <HBox alignment="CENTER" prefHeight="113.0" prefWidth="988.0">
                      <children>
-                        <Label text="Current category" textFill="WHITE">
+                        <Label fx:id="viewLabel" text="Current category" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="36.0" />
                            </font>
                         </Label>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER" prefHeight="269.0" prefWidth="988.0">
+                  <StackPane>
                      <children>
-                        <HBox alignment="CENTER" prefHeight="248.0" prefWidth="686.0">
+                        <VBox fx:id="updateVBox" visible="false">
                            <children>
-                              <ImageView fx:id="currentProductCategoryImageView" fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                              <HBox alignment="CENTER" prefHeight="269.0" prefWidth="988.0">
+                                 <children>
+                                    <HBox alignment="CENTER" prefHeight="248.0" prefWidth="686.0">
+                                       <children>
+                                          <ImageView fx:id="currentProductCategoryImageViewUpdate" fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                                       </children>
+                                    </HBox>
+                                    <VBox prefHeight="248.0" prefWidth="701.0">
+                                       <children>
+                                          <Label text="Choose image" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold" size="24.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets top="30.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                          <ComboBox fx:id="categoryImageComboBoxUpdate" prefHeight="40.0" prefWidth="450.0" visibleRowCount="6">
+                                             <VBox.margin>
+                                                <Insets top="10.0" />
+                                             </VBox.margin>
+                                          </ComboBox>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </HBox>
+                              <HBox>
+                                 <children>
+                                    <VBox alignment="CENTER_LEFT" prefHeight="181.0" prefWidth="618.0" spacing="20.0">
+                                       <children>
+                                          <Label text="Category name" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold" size="24.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets left="40.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                          <TextField fx:id="categoryNameTextFieldUpdate" prefHeight="40.0" prefWidth="715.0">
+                                             <VBox.margin>
+                                                <Insets left="40.0" />
+                                             </VBox.margin>
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </TextField>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </HBox>
+                              <VBox prefHeight="180.0" prefWidth="988.0">
+                                 <children>
+                                    <HBox alignment="CENTER" prefHeight="151.0" prefWidth="988.0">
+                                       <children>
+                                          <Label fx:id="validationLabel" text="" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold" size="24.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER" prefHeight="181.0" prefWidth="988.0" spacing="100.0">
+                                       <children>
+                                          <Button fx:id="saveUpdateButton" mnemonicParsing="false" onAction="#updateProductCategory" style="-fx-background-color: #66B76A;" text="SAVE" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold" size="24.0" />
+                                             </font>
+                                          </Button>
+                                          <Button fx:id="cancelUpdateButton" onAction="#switchToOverview" mnemonicParsing="false" style="-fx-background-color: red;" text="CANCEL" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold" size="24.0" />
+                                             </font>
+                                          </Button>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
                            </children>
-                        </HBox>
-                        <VBox prefHeight="248.0" prefWidth="701.0">
+                        </VBox>
+                        <VBox fx:id="overviewVBox"  prefHeight="200.0" prefWidth="100.0" visible="true">
                            <children>
-                              <Label text="Choose image" textFill="WHITE">
-                                 <font>
-                                    <Font name="System Bold" size="24.0" />
-                                 </font>
-                                 <VBox.margin>
-                                    <Insets top="30.0" />
-                                 </VBox.margin>
-                              </Label>
-                              <ComboBox fx:id="categoryImageComboBox" prefHeight="40.0" prefWidth="450.0" visibleRowCount="6">
-                                 <VBox.margin>
-                                    <Insets top="10.0" />
-                                 </VBox.margin>
-                              </ComboBox>
+                              <HBox alignment="CENTER" prefHeight="417.0" prefWidth="988.0" spacing="80.0">
+                                 <children>
+                                    <ImageView fx:id="categoryImagePreview" fitHeight="189.0" fitWidth="197.0" pickOnBounds="true" preserveRatio="true" />
+                                    <Label fx:id="categoryNameLabelPreview" text="Category name" textFill="WHITE">
+                                       <font>
+                                          <Font name="System Bold" size="36.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER" prefHeight="214.0" prefWidth="988.0" spacing="100.0">
+                                 <children>
+                                    <Button fx:id="updateCategoryButton" onAction="#switchToUpdateView" mnemonicParsing="false" style="-fx-background-color: #FEC928;" text="UPDATE" textFill="WHITE">
+                                       <font>
+                                          <Font name="System Bold" size="18.0" />
+                                       </font>
+                                    </Button>
+                                    <Button fx:id="deleteCategoryButton" onAction="#deleteCategory" mnemonicParsing="false" style="-fx-background-color: #F44336;" text="DELETE" textFill="WHITE">
+                                       <font>
+                                          <Font name="System Bold" size="18.0" />
+                                       </font>
+                                    </Button>
+                                 </children>
+                              </HBox>
                            </children>
                         </VBox>
                      </children>
-                  </HBox>
-                  <HBox>
-                     <children>
-                        <VBox alignment="CENTER_LEFT" prefHeight="181.0" prefWidth="618.0" spacing="20.0">
-                           <children>
-                              <Label text="Category name" textFill="WHITE">
-                                 <font>
-                                    <Font name="System Bold" size="24.0" />
-                                 </font>
-                                 <VBox.margin>
-                                    <Insets left="40.0" />
-                                 </VBox.margin>
-                              </Label>
-                              <TextField fx:id="categoryNameTextField" prefHeight="40.0" prefWidth="715.0">
-                                 <VBox.margin>
-                                    <Insets left="40.0" />
-                                 </VBox.margin>
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                              </TextField>
-                           </children>
-                        </VBox>
-                     </children>
-                  </HBox>
-                  <VBox prefHeight="180.0" prefWidth="988.0">
-                     <children>
-                        <HBox alignment="CENTER" prefHeight="151.0" prefWidth="988.0">
-                           <children>
-                              <Label fx:id="validationLabel" text="" textFill="WHITE">
-                                 <font>
-                                    <Font name="System Bold" size="24.0" />
-                                 </font>
-                              </Label>
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER" prefHeight="181.0" prefWidth="988.0" spacing="100.0">
-                           <children>
-                              <Button fx:id="saveButton" mnemonicParsing="false" onAction="#saveCurrentProductCategory" style="-fx-background-color: #324546;" text="SAVE" textFill="WHITE">
-                                 <font>
-                                    <Font name="System Bold" size="24.0" />
-                                 </font>
-                              </Button>
-                              <Button fx:id="deleteButton" mnemonicParsing="false" style="-fx-background-color: red;" text="DELETE" textFill="WHITE">
-                                 <font>
-                                    <Font name="System Bold" size="24.0" />
-                                 </font>
-                              </Button>
-                           </children>
-                        </HBox>
-                     </children>
-                  </VBox>
+                  </StackPane>
                </children>
             </VBox>
          </children>
