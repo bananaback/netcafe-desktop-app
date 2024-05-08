@@ -18,7 +18,7 @@
 
 .custom-list-view {
     /*-fx-background-color: #0051ff;*/
-    -fx-control-inner-background: rgb(30, 30, 32);
+    -fx-control-inner-background: #1e1e20;
 }
 
 /* Remove focus styling */
