@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1440.0" style="-fx-background-color: #131111; -fx-border-color: black; -fx-border-width: 4 0 4 0px;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox alignment="TOP_CENTER" prefHeight="754.0" prefWidth="481.0">
+         <children>
+            <Label text="Rooms" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Label>
+            <ListView fx:id="roomListView" prefHeight="644.0" prefWidth="473.0" styleClass="custom-list-view" />
+            <Button fx:id="addRoomButton" mnemonicParsing="false" style="-fx-background-color: #7DDA58;" text="Add new room" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Button>
+         </children>
+      </VBox>
+      <StackPane prefHeight="742.0" prefWidth="975.0">
+         <children>
+            <VBox prefHeight="749.0" prefWidth="967.0">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="609.0" prefWidth="967.0">
+                     <children>
+                        <Label fx:id="roomNameLabelPreview" text="Room name" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="36.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="127.0" prefWidth="967.0" spacing="80.0">
+                     <children>
+                        <Button fx:id="updateButton" mnemonicParsing="false" style="-fx-background-color: #FEC928;" text="UPDATE" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="24.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="deleteButton" mnemonicParsing="false" style="-fx-background-color: #F44336;" text="DELETE" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="24.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0" visible="false">
+               <children>
+                  <VBox alignment="CENTER_LEFT" prefHeight="608.0" prefWidth="967.0" spacing="20.0">
+                     <children>
+                        <Label text="Room name" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="36.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="roomNameTextFieldUpdate" prefWidth="967.0">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </TextField>
+                        <Label fx:id="validationText" text="Label" textFill="WHITE">
+                           <font>
+                              <Font size="36.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <VBox.margin>
+                        <Insets left="40.0" right="40.0" />
+                     </VBox.margin>
+                  </VBox>
+                  <HBox alignment="CENTER" prefHeight="141.0" prefWidth="967.0" spacing="80.0">
+                     <children>
+                        <Button fx:id="saveUpdateButton" mnemonicParsing="false" style="-fx-background-color: #66B76A;" text="SAVE" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="24.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="cancelUpdateButton" mnemonicParsing="false" style="-fx-background-color: red;" text="CANCEL" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="24.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </StackPane>
+   </children>
+</HBox>
