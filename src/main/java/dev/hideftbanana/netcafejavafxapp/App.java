@@ -7,6 +7,10 @@ import java.io.IOException;
 
 import dev.hideftbanana.netcafejavafxapp.datamodels.ProductCategoryDataModel;
 import dev.hideftbanana.netcafejavafxapp.datamodels.ProductDataModel;
+<<<<<<< Updated upstream
+=======
+import dev.hideftbanana.netcafejavafxapp.datamodels.RoomDataModel;
+>>>>>>> Stashed changes
 import dev.hideftbanana.netcafejavafxapp.services.cacheservices.ImageCache;
 
 /**
@@ -30,7 +34,9 @@ public class App extends Application {
         ImageCache imageCache = new ImageCache(100);
         ProductCategoryDataModel productCategoryDataModel = new ProductCategoryDataModel();
         ProductDataModel productDataModel = new ProductDataModel();
-        SceneManager sceneManager = new SceneManager(stage, imageCache, productCategoryDataModel, productDataModel);
+        RoomDataModel roomDataModel = new RoomDataModel();
+        SceneManager sceneManager = new SceneManager(stage, imageCache, productCategoryDataModel, productDataModel,
+                roomDataModel);
         sceneManager.switchingScene("/dev/hideftbanana/netcafejavafxapp/fxml/admin_login_page.fxml");
         sceneManager.showRootStage();
 

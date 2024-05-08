@@ -8,6 +8,7 @@ import dev.hideftbanana.netcafejavafxapp.controllers.BaseController;
 import dev.hideftbanana.netcafejavafxapp.controllers.MainAppController;
 import dev.hideftbanana.netcafejavafxapp.datamodels.ProductCategoryDataModel;
 import dev.hideftbanana.netcafejavafxapp.datamodels.ProductDataModel;
+import dev.hideftbanana.netcafejavafxapp.datamodels.RoomDataModel;
 import dev.hideftbanana.netcafejavafxapp.services.cacheservices.ImageCache;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -19,16 +20,19 @@ public class SceneManager {
     private final ImageCache imageCache;
     private final ProductCategoryDataModel productCategoryDataModel;
     private ProductDataModel productDataModel;
+    private RoomDataModel roomDataModel;
 
     public SceneManager(Stage rootStage, ImageCache imageCache, ProductCategoryDataModel productCategoryDataModel,
-            ProductDataModel productDataModel) {
-        if (rootStage == null || imageCache == null || productCategoryDataModel == null || productDataModel == null) {
+            ProductDataModel productDataModel, RoomDataModel roomDataModel) {
+        if (rootStage == null || imageCache == null || productCategoryDataModel == null || productDataModel == null
+                || roomDataModel == null) {
             throw new IllegalArgumentException("Root stage, image cache and data models must not be null.");
         }
         this.rootStage = rootStage;
         this.imageCache = imageCache;
         this.productCategoryDataModel = productCategoryDataModel;
         this.productDataModel = productDataModel;
+        this.roomDataModel = roomDataModel;
     }
 
     private final Map<String, Scene> scenes = new HashMap<>();
@@ -45,6 +49,7 @@ public class SceneManager {
                         mainAppController.setImageCache(imageCache);
                         mainAppController.setProductCategoryDataModel(productCategoryDataModel);
                         mainAppController.setProductDataModel(productDataModel);
+                        mainAppController.setRoomDataModel(roomDataModel);
                         System.out.println("Image cache passed to MainAppController!!!");
                     }
                     return controller;
