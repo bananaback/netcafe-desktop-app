@@ -5,6 +5,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+import dev.hideftbanana.netcafejavafxapp.datamodels.ComputerDataModel;
 import dev.hideftbanana.netcafejavafxapp.datamodels.ProductCategoryDataModel;
 import dev.hideftbanana.netcafejavafxapp.datamodels.ProductDataModel;
 import dev.hideftbanana.netcafejavafxapp.datamodels.RoomDataModel;
@@ -32,8 +33,9 @@ public class App extends Application {
         ProductCategoryDataModel productCategoryDataModel = new ProductCategoryDataModel();
         ProductDataModel productDataModel = new ProductDataModel();
         RoomDataModel roomDataModel = new RoomDataModel();
+        ComputerDataModel computerDataModel = new ComputerDataModel();
         SceneManager sceneManager = new SceneManager(stage, imageCache, productCategoryDataModel, productDataModel,
-                roomDataModel);
+                roomDataModel, computerDataModel);
         sceneManager.switchingScene("/dev/hideftbanana/netcafejavafxapp/fxml/admin_login_page.fxml");
         sceneManager.showRootStage();
 
