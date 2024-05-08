@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import dev.hideftbanana.netcafejavafxapp.datamodels.ComputerDataModel;
 import dev.hideftbanana.netcafejavafxapp.datamodels.ProductCategoryDataModel;
 import dev.hideftbanana.netcafejavafxapp.datamodels.ProductDataModel;
 import dev.hideftbanana.netcafejavafxapp.datamodels.RoomDataModel;
@@ -44,6 +45,8 @@ public class MainAppController extends BaseController implements Initializable {
     private Button productsButton;
     @FXML
     private Button roomsButton;
+    @FXML
+    private Button computersButton;
 
     private FadeTransition fadeTransition;
 
@@ -51,6 +54,7 @@ public class MainAppController extends BaseController implements Initializable {
     private ProductCategoryDataModel productCategoryDataModel;
     private ProductDataModel productDataModel;
     private RoomDataModel roomDataModel;
+    private ComputerDataModel computerDataModel;
 
     public void setImageCache(ImageCache imageCache) {
         this.imageCache = imageCache;
@@ -71,6 +75,7 @@ public class MainAppController extends BaseController implements Initializable {
         categoriesButton.setOnAction(event -> handleButtonSelection(categoriesButton));
         productsButton.setOnAction(event -> handleButtonSelection(productsButton));
         roomsButton.setOnAction(event -> handleButtonSelection(roomsButton));
+        computersButton.setOnAction(event -> handleButtonSelection(computersButton));
 
     }
 
@@ -100,6 +105,7 @@ public class MainAppController extends BaseController implements Initializable {
         categoriesButton.setStyle("-fx-background-color: #1C1A1A;");
         productsButton.setStyle("-fx-background-color: #1C1A1A;");
         roomsButton.setStyle("-fx-background-color: #1C1A1A;");
+        computersButton.setStyle("-fx-background-color: #1C1A1A;");
 
         // Select the clicked button
         selectedButton.setStyle("-fx-background-color: #197B1D;");
@@ -119,6 +125,9 @@ public class MainAppController extends BaseController implements Initializable {
             rightHBox.getChildren().clear();
         } else if (selectedButton == roomsButton) {
             replaceCenterWithFXML("/dev/hideftbanana/netcafejavafxapp/fxml/room_management.fxml");
+            rightHBox.getChildren().clear();
+        } else if (selectedButton == computersButton) {
+            replaceCenterWithFXML("/dev/hideftbanana/netcafejavafxapp/fxml/computer_management.fxml");
             rightHBox.getChildren().clear();
         } else if (selectedButton == monitorButton) {
             replaceCenterWithFXML("/dev/hideftbanana/netcafejavafxapp/fxml/monitor_center.fxml");
@@ -181,6 +190,10 @@ public class MainAppController extends BaseController implements Initializable {
                 RoomController roomController = (RoomController) controller;
                 roomController.setImageCache(imageCache);
                 roomController.setDataModel(roomDataModel);
+            } else if (controller instanceof ComputerController) {
+                ComputerController computerController = (ComputerController) controller;
+                computerController.setImageCache(imageCache);
+                computerController.setDataModel(computerDataModel);
             }
 
             // Add newCenter to centerHBox
@@ -202,5 +215,9 @@ public class MainAppController extends BaseController implements Initializable {
 
     public void setRoomDataModel(RoomDataModel roomDataModel) {
         this.roomDataModel = roomDataModel;
+    }
+
+    public void setComputerDataModel(ComputerDataModel computerDataModel) {
+        this.computerDataModel = computerDataModel;
     }
 }
