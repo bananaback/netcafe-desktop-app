@@ -119,6 +119,99 @@ public class ProductController extends BaseController implements Initializable {
     }
 
     @FXML
+    private void deleteProduct() {
+        Product selectedProduct = productDataModel.getCurrentProduct();
+        if (selectedProduct != null) {
+            Task<Void> deleteProductTask = new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    try {
+                        // Call the deleteProduct method of the data model
+                        productDataModel.deleteProduct(selectedProduct.getId());
+                    } catch (Exception e) {
+                        // If an exception occurs, throw it to be handled by the exception handler
+                        throw e;
+                    }
+                    return null;
+                }
+            };
+
+            // Set up an exception handler for the task
+            deleteProductTask.setOnFailed(event -> {
+                Throwable exception = deleteProductTask.getException();
+                // Handle the exception appropriately, such as displaying an error message to
+                // the user
+                System.err.println("Failed to delete product: " + exception.getMessage());
+                // Handle the exception by showing an alert to the user
+                Platform.runLater(() -> {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText("Failed to delete product");
+                    alert.setContentText(exception.getMessage());
+                    alert.showAndWait();
+                });
+            });
+
+            // Set up a completion handler for the task
+            deleteProductTask.setOnSucceeded(event -> {
+                Platform.runLater(() -> {
+                    // Update the UI as needed, e.g., refresh product list, switch to overview view,
+                    // etc.
+                    // For example:
+                    productListView.setItems(productDataModel.getProductList());
+                    productListView.refresh();
+                });
+            });
+
+            new Thread(deleteProductTask).start();
+        } else {
+            // No product is selected, handle this case as needed
+            // For example, show a message to the user indicating that they need to select a
+            // product to delete
+        }
+    }
+
+    @FXML
+    private void addProduct() {
+        // Create a new request object with default data
+        CreateProductRequest request = new CreateProductRequest();
+        request.setName("Default Product Name");
+        request.setDescription("Default Product Description");
+        request.setPrice(0.0f); // Default price
+        request.setRemainQuantity(0); // Default quantity
+        request.setProductImageLink("86a1a96d-90ed-4283-97c2-e68fdfa576a1.jpg"); // Default image link
+        request.setCategoryId(1L); // Default category ID, adjust as needed
+
+        // Create a task to execute the addProduct method asynchronously
+        Task<Void> addProductTask = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                try {
+                    // Call the addProduct method of the data model
+                    productDataModel.addProduct(request);
+                } catch (Exception e) {
+                    // If an exception occurs, show an error message
+                    Platform.runLater(() -> {
+                        // You can show an error message to the user here
+                        System.err.println("Failed to add product: " + e.getMessage());
+                    });
+                }
+                return null;
+            }
+        };
+
+        // Start the task in a background thread
+        new Thread(addProductTask).start();
+
+        Platform.runLater(() -> {
+            // Update the UI as needed, e.g., refresh product list
+            // For example:
+            productListView.setItems(productDataModel.getProductList());
+            productListView.refresh();
+        });
+    }
+
+    @FXML
     private void saveProduct() {
         Product selectedProduct = productDataModel.getCurrentProduct();
         if (selectedProduct != null && productNameTextField.getText() != null

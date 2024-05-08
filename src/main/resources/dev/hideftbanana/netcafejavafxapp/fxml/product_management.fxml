@@ -32,7 +32,7 @@
             </VBox>
             <HBox alignment="CENTER" prefHeight="86.0" prefWidth="510.0">
                <children>
-                  <Button fx:id="addProductButton" mnemonicParsing="false" style="-fx-background-color: #7DDA58;" text="Add new product" textFill="WHITE">
+                  <Button fx:id="addProductButton" onAction="#addProduct" mnemonicParsing="false" style="-fx-background-color: #7DDA58;" text="Add new product" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
@@ -189,7 +189,7 @@
                                           <Font name="System Bold" size="24.0" />
                                        </font>
                                     </Button>
-                                    <Button fx:id="deleteProductButton" mnemonicParsing="false" style="-fx-background-color: #F44336;" text="DELETE" textFill="WHITE">
+                                    <Button fx:id="deleteProductButton" onAction="#deleteProduct" mnemonicParsing="false" style="-fx-background-color: #F44336;" text="DELETE" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="24.0" />
                                        </font>
