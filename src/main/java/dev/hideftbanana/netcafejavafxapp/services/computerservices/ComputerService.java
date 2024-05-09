@@ -50,7 +50,6 @@ public class ComputerService {
                     }
                 });
     }
-
     public CompletableFuture<ComputersResponse> getAllComputers() {
         String apiUrl = "http://localhost:8080/api/computers";
         HttpRequest request = HttpRequest.newBuilder()
