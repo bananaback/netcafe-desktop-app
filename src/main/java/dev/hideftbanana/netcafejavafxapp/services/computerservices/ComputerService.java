@@ -5,12 +5,15 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import dev.hideftbanana.netcafejavafxapp.TokenManager;
 import dev.hideftbanana.netcafejavafxapp.models.request.CreateComputerRequest;
+import dev.hideftbanana.netcafejavafxapp.models.responses.ComputerResponse;
 import dev.hideftbanana.netcafejavafxapp.models.responses.ComputersResponse;
 import dev.hideftbanana.netcafejavafxapp.models.responses.ErrorResponse;
 
@@ -22,6 +25,30 @@ public class ComputerService {
     public ComputerService() {
         this.httpClient = HttpClient.newHttpClient();
         this.objectMapper = new ObjectMapper();
+    }
+
+    public CompletableFuture<ComputerResponse> getComputerById(long computerId) {
+        String apiUrl = "http://localhost:8080/api/computers/" + computerId;
+        HttpRequest request = HttpRequest.newBuilder()
+                .header("Authorization", "Bearer " + TokenManager.getAccessToken()) // Add the authorization header
+                .uri(URI.create(apiUrl))
+                .GET()
+                .build();
+
+        return httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                .thenApplyAsync(response -> {
+                    if (response.statusCode() == 200) {
+                        try {
+                            ComputerResponse computerResponse = objectMapper.readValue(response.body(),
+                                    ComputerResponse.class);
+                            return computerResponse;
+                        } catch (Exception e) {
+                            throw new RuntimeException("Failed to parse JSON response", e);
+                        }
+                    } else {
+                        throw new RuntimeException("Failed with status code: " + response.statusCode());
+                    }
+                });
     }
 
     public CompletableFuture<ComputersResponse> getAllComputers() {
@@ -133,6 +160,32 @@ public class ComputerService {
                         } catch (IOException e) {
                             throw new RuntimeException("Failed to parse JSON response", e);
                         }
+                    }
+                });
+    }
+
+    public CompletableFuture<List<ComputerResponse>> getComputersByRoom(long roomId) {
+        String apiUrl = "http://localhost:8080/api/computers/room/" + roomId;
+        HttpRequest request = HttpRequest.newBuilder()
+                .header("Authorization", "Bearer " + TokenManager.getAccessToken()) // Add the authorization header
+                .uri(URI.create(apiUrl))
+                .GET()
+                .build();
+
+        return httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                .thenApplyAsync(response -> {
+                    if (response.statusCode() == 200) {
+                        try {
+                            ObjectMapper mapper = new ObjectMapper();
+                            List<ComputerResponse> computerResponses = mapper.readValue(response.body(),
+                                    new TypeReference<List<ComputerResponse>>() {
+                                    });
+                            return computerResponses;
+                        } catch (Exception e) {
+                            throw new RuntimeException("Failed to parse JSON response", e);
+                        }
+                    } else {
+                        throw new RuntimeException("Failed with status code: " + response.statusCode());
                     }
                 });
     }
