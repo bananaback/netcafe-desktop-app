@@ -94,7 +94,7 @@
                               <Font name="System Bold" size="24.0" />
                            </font>
                         </Button>
-                        <Button fx:id="promoteButton" mnemonicParsing="false" text="Send promotion" textFill="#1ac63c">
+                        <Button fx:id="promoteButton" onAction="#sendEmail" mnemonicParsing="false" text="Send promotion" textFill="#1ac63c">
                            <font>
                               <Font name="System Bold" size="24.0" />
                            </font>
@@ -213,7 +213,7 @@
                   </VBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="80.0">
                      <children>
-                        <Button fx:id="confirmAddUserButton" mnemonicParsing="false" style="-fx-background-color: #26b506;" text="ADD" textFill="WHITE">
+                        <Button fx:id="confirmAddUserButton" onAction="#registerUser" mnemonicParsing="false" style="-fx-background-color: #26b506;" text="ADD" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="24.0" />
                            </font>
