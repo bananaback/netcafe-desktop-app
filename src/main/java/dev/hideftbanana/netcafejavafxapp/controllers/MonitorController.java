@@ -10,11 +10,13 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 import dev.hideftbanana.netcafejavafxapp.models.Room;
 import dev.hideftbanana.netcafejavafxapp.models.request.ComputerIdsRequest;
 import dev.hideftbanana.netcafejavafxapp.models.responses.ComputerResponse;
+import dev.hideftbanana.netcafejavafxapp.models.responses.MessageDTO;
 import dev.hideftbanana.netcafejavafxapp.models.responses.OrderItemDTO;
 import dev.hideftbanana.netcafejavafxapp.models.responses.OrderResponse;
 import dev.hideftbanana.netcafejavafxapp.models.responses.OrderStatusEnum;
@@ -23,12 +25,15 @@ import dev.hideftbanana.netcafejavafxapp.models.responses.RoomResponse;
 import dev.hideftbanana.netcafejavafxapp.models.responses.UserSessionResponse;
 import dev.hideftbanana.netcafejavafxapp.services.cacheservices.ImageCache;
 import dev.hideftbanana.netcafejavafxapp.services.computerservices.ComputerService;
+import dev.hideftbanana.netcafejavafxapp.services.messageservices.MessageService;
 import dev.hideftbanana.netcafejavafxapp.services.orderitemservices.OrderItemService;
 import dev.hideftbanana.netcafejavafxapp.services.orderservices.OrderService;
 import dev.hideftbanana.netcafejavafxapp.services.productservices.ProductService;
 import dev.hideftbanana.netcafejavafxapp.services.roomservices.RoomService;
 import dev.hideftbanana.netcafejavafxapp.services.userserssionservices.UserSessionService;
 import dev.hideftbanana.netcafejavafxapp.services.userservices.UserService;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -36,9 +41,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
@@ -56,6 +63,7 @@ public class MonitorController extends BaseController implements Initializable {
         private OrderService orderService;
         private OrderItemService orderItemService;
         private ProductService productService;
+        private MessageService messageService;
 
         @FXML
         private HBox roomHBox;
@@ -85,10 +93,14 @@ public class MonitorController extends BaseController implements Initializable {
         @FXML
         private VBox messagesVBox;
         @FXML
+        private VBox allMessagesVBox;
+        @FXML
         private Button ordersButton;
         @FXML
         private Button communicateButton;
+
         private Long currentUserId;
+        private Timeline timeline;
 
         @FXML
         private void checkoutUser() {
@@ -162,6 +174,7 @@ public class MonitorController extends BaseController implements Initializable {
                 this.orderService = new OrderService();
                 this.orderItemService = new OrderItemService();
                 this.productService = new ProductService();
+                this.messageService = new MessageService();
         }
 
         @Override
@@ -169,6 +182,127 @@ public class MonitorController extends BaseController implements Initializable {
                 renderButtons();
                 ordersScrollPane.setVisible(true);
                 messagesVBox.setVisible(false);
+
+                timeline = new Timeline();
+
+                // Add a KeyFrame with a duration of 3 seconds
+                timeline.getKeyFrames().add(new KeyFrame(javafx.util.Duration.seconds(3), e -> {
+                        fetchAndRenderMessages(); // Call the fetchAndRenderMessages method
+                }));
+
+                // Set the cycle count to INDEFINITE to repeat indefinitely
+                timeline.setCycleCount(Timeline.INDEFINITE);
+
+                // Start the Timeline
+                timeline.play();
+        }
+
+        private void fetchAndRenderMessages() {
+                CompletableFuture<List<MessageDTO>> future = messageService.getAllMessagesForUserInTimeRange(
+                                1L, // User ID
+                                LocalDateTime.now().minusDays(1), // Begin time (e.g., 1 day ago)
+                                LocalDateTime.now() // End time (current time)
+                );
+
+                future.thenAccept(this::renderMessages)
+                                .exceptionally(e -> {
+                                        e.printStackTrace();
+                                        return null; // Return null to ensure the CompletableFuture completes
+                                                     // exceptionally
+                                });
+        }
+
+        @FXML
+        private TextField messageTextField;
+
+        @FXML
+        private void sendAdminMessage() {
+                // Get the message content from a text field or any input component
+                String messageContent = messageTextField.getText();
+
+                // Call the sendMessageForAdmin() method from the MessageService
+                CompletableFuture<String> future = messageService.sendMessageForAdmin(1L, messageContent);
+
+                // Handle the completion of the future
+                future.thenAccept(result -> {
+                        fetchAndRenderMessages();
+                        Platform.runLater(() -> {
+                                messageTextField.clear();
+                                scrollToEndAfterDelay();
+                        });
+                }).exceptionally(e -> {
+                        // Handle exceptions (e.g., show an error message)
+                        e.printStackTrace();
+                        String errorMessage = e.getCause().getMessage(); // Get the error message from the cause of the
+                                                                         // exception
+
+                        // Show an alert with the error message
+                        Platform.runLater(() -> {
+                                Alert alert = new Alert(AlertType.ERROR);
+                                alert.setTitle("Error Sending Message");
+                                alert.setHeaderText("Unable to send message");
+                                alert.setContentText(errorMessage);
+                                alert.showAndWait();
+                                messageTextField.clear();
+                        });
+
+                        return null; // Returning null to complete the exceptionally
+                });
+        }
+
+        // Use fully qualified names to disambiguate
+        private void scrollToEndAfterDelay() {
+                // Create a timeline with a delay of 3 seconds
+                javafx.animation.Timeline timeline = new javafx.animation.Timeline(
+                                new javafx.animation.KeyFrame(javafx.util.Duration.seconds(0.2), e -> {
+                                        // Set the vvalue of the scroll pane to 1.0 (scroll to the bottom)
+                                        messageScrollPane.setVvalue(1.0);
+                                }));
+
+                // Play the timeline
+                timeline.play();
+        }
+
+        @FXML
+        private ScrollPane messageScrollPane;
+
+        private void renderMessages(List<MessageDTO> messages) {
+                Platform.runLater(() -> {
+                        allMessagesVBox.getChildren().clear();
+                        for (MessageDTO message : messages) {
+                                HBox parentBox = new HBox();
+                                allMessagesVBox.setSpacing(20); // Add spacing between the child HBoxes
+
+                                HBox messageBox = new HBox();
+                                Label messageLabel = new Label(message.getMessage());
+                                messageLabel.setWrapText(true);
+                                messageLabel.setMaxWidth(200); // Limit the width of each message box
+                                messageBox.getChildren().add(messageLabel);
+
+                                // Check if sender is null (admin message)
+                                if (message.getSenderId() == null) {
+                                        messageBox.setStyle(
+                                                        "-fx-background-color: lightblue; -fx-padding: 5px; -fx-border-radius: 10px; -fx-background-radius: 10px 10px 0 10px;");
+                                        messageBox.setAlignment(javafx.geometry.Pos.TOP_RIGHT);
+                                        parentBox.setAlignment(javafx.geometry.Pos.TOP_RIGHT);
+                                } else {
+                                        messageBox.setStyle(
+                                                        "-fx-background-color: lightgreen; -fx-padding: 5px; -fx-border-radius: 10px; -fx-background-radius: 0 10px 10px 10px;");
+                                        messageBox.setAlignment(javafx.geometry.Pos.TOP_LEFT);
+                                        parentBox.setAlignment(javafx.geometry.Pos.TOP_LEFT);
+                                }
+
+                                // Add the message box as a child of the parent box
+                                parentBox.getChildren().add(messageBox);
+
+                                // Add an empty HBox as a spacer
+                                parentBox.getChildren().add(new HBox());
+
+                                // Add the parent box to the main VBox
+                                allMessagesVBox.getChildren().add(parentBox);
+                        }
+
+                });
         }
 
         private void renderButtons() {
