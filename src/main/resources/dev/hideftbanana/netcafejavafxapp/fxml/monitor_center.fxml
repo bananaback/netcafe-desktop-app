@@ -141,7 +141,7 @@
                         </VBox>
                         <HBox alignment="CENTER_LEFT" prefHeight="122.0" prefWidth="397.0">
                            <children>
-                              <Button fx:id="checkoutButton" onAction="#checkoutUser" mnemonicParsing="false" style="-fx-background-color: #F2F486;" text="Checkout">
+                              <Button fx:id="checkoutButton" mnemonicParsing="false" onAction="#checkoutUser" style="-fx-background-color: #F2F486;" text="Checkout">
                                  <font>
                                     <Font name="System Bold" size="18.0" />
                                  </font>
@@ -225,11 +225,18 @@
                         </ScrollPane>
                         <VBox fx:id="messagesVBox" prefHeight="200.0" prefWidth="100.0">
                            <children>
-                              <VBox prefHeight="319.0" prefWidth="336.0" />
+                              <ScrollPane fx:id="messageScrollPane" hbarPolicy="NEVER" style="-fx-background-color: #070813;">
+                                 <content>
+                                    <VBox fx:id="allMessagesVBox" prefHeight="319.0" prefWidth="336.0" style="-fx-background-color: #070813;">
+                                       <padding>
+                                          <Insets right="20.0" />
+                                       </padding></VBox>
+                                 </content>
+                              </ScrollPane>
                               <HBox prefHeight="28.0" prefWidth="336.0">
                                  <children>
-                                    <TextField prefHeight="58.0" prefWidth="242.0" promptText="Send message..." />
-                                    <Button mnemonicParsing="false" style="-fx-background-color: red;" text="SEND" textFill="WHITE">
+                                    <TextField fx:id="messageTextField" prefHeight="58.0" prefWidth="242.0" promptText="Send message..." />
+                                    <Button mnemonicParsing="false" onAction="#sendAdminMessage" style="-fx-background-color: red;" text="SEND" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="24.0" />
                                        </font>
